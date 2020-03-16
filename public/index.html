@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" type="text/css" href="<%= BASE_URL %>loader.css">
+    <title>Clair - L'intelligence artificielle au service de votre comptabilité</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="loading-bg">
+      <div class="loading-logo">
+        <img src="<%= BASE_URL %>logo.png" alt="Logo">
+      </div>
+      <div class="loading">
+        <div class="effect-1 effects"></div>
+        <div class="effect-2 effects"></div>
+        <div class="effect-3 effects"></div>
+      </div>
+    </div>
+    <div id="app">
+
+    </div>
+    <!-- built files will be auto injected -->
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-firestore.js"></script>
+
+
+<script src="/__/firebase/init.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+  apiKey: "AIzaSyBcxVimkFG6NWXXfSbssTNl0jjNoOkG4M8",
+  authDomain: "clair-f53be.firebaseapp.com",
+  databaseURL: "https://clair-f53be.firebaseio.com",
+  projectId: "clair-f53be",
+  storageBucket: "clair-f53be.appspot.com",
+  messagingSenderId: "851092395948",
+  appId: "1:851092395948:web:a8f76c2ba4aaaba742cc09",
+  measurementId: "G-LB6EP4KWVE"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  
+var db = firebase.firestore();
+</script>
+    
+<script>
+const firebase = require("firebase");
+// Required for side-effects
+require("firebase/firestore");
+</script>
+
+<script src="datafire.js"></script>
+    
+    
+    
+  </body>
+</html>
