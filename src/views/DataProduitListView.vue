@@ -43,9 +43,68 @@
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
+          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-primary">Nouveau Produit</span>
+          </div> -->
+
+          <b-button v-b-modal.modal-center>
+            <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+            <span class="ml-2 text-base text-primary">Nouveau Produit</span>
+          </b-button>
+
+          <div style="margin-top: 30%;">
+            <b-modal id="modal-center"
+              ref="modal"
+              title="Submit Your Name"
+              @show="resetModal"
+              @hidden="resetModal"
+              @ok="handleOk"
+            >
+              <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                  :state="nameState"
+                  label="nomProd"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="nomProd"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="PRIX UNITAIRE"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="prixU"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="Description"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="description"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </form>
+            </b-modal>
           </div>
         </div>
 
@@ -71,10 +130,7 @@
               <span>20</span>
             </vs-dropdown-item>
           </vs-dropdown-menu>
-        </vs-dropdown>
-        
-       
-        
+        </vs-dropdown> 
       </div>
      
 
@@ -134,6 +190,12 @@ export default {
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
+
+      nomProd: '',
+      prixU: '',
+      description: "",
+      nameState: null,
+      submittedNames: []
     }
   },
   computed: {
@@ -152,7 +214,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("produits",["FETCH_PRODUITS","DELETE_PRODUITS"]),
+    ...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS","DELETE_PRODUITS"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
@@ -195,6 +257,49 @@ export default {
     },
     toggleDataSidebar(val=false) {
       this.addNewDataSidebar = val
+    },
+
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity()
+      this.nameState = valid
+      return valid
+    },
+    resetModal() {
+      this.name = ''
+      this.nameState = null
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.handleSubmit()
+    },
+    async handleSubmit() {
+      console.log("hello");
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return
+      }
+
+      let obj = {
+        nomProd: this.nomProd,
+        prixU: this.prixU,
+        description: this.description
+      }
+
+      console.log("description", obj);
+      await this.ADD_PRODUITS(obj).then(res => {
+        this.FETCH_PRODUITS()
+      }).catch(err => {
+        console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+      })
+
+      // Push the name to submitted names
+      this.submittedNames.push(this.name)
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
     }
   },
   created() {

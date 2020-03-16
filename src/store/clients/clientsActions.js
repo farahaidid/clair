@@ -2,7 +2,6 @@ import { db } from "../../firebase/firebaseConfig"
 
 export default {
   async FETCH_CLIENTS({commit}){
-    console.log("------------------------------")
     return await db.collection("clients").get().then(snapshot => {
       console.log("snapshot", snapshot)
       if(!snapshot.empty){

@@ -2,7 +2,6 @@ import { db } from "../../firebase/firebaseConfig"
 
 export default {
   async FETCH_PRODUITS({commit}){
-    console.log("hello ==============================================================")
     return await db.collection("produits").get().then(snapshot => {
       if(!snapshot.empty){
         let emps = snapshot.docs.map(doc => Object.assign({id: doc.id},doc.data()) )
