@@ -27,6 +27,7 @@ import moduleECommerce from './eCommerce/moduleECommerce.js'
 import employes from './employes'
 import produits from './produits'
 import clients from './clients'
+import enregistrer from './enregistrer';
 
 
 export default new Vuex.Store({
@@ -43,7 +44,8 @@ export default new Vuex.Store({
         eCommerce: moduleECommerce,
         employes,
         produits,
-        clients
+        clients,
+        enregistrer
     },
     strict: process.env.NODE_ENV !== 'production'
 })

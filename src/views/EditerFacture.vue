@@ -1,13 +1,5 @@
 <template>
-
-
-
 	<div class="vx-row">
-
-
-
-	
-
 		<!-- MULTIPLE COLUMNS-->
 		<div class="vx-col w-full mb-base">
 			<vx-card >
@@ -18,25 +10,21 @@
 					<div class="vx-col sm:w-1/2 w-full mb-2">
 						<vs-input class="w-full" label-placeholder="Facture" v-model="input26" />
 					</div>
-                    
-                    
-                    
 				</div>
                 
-                
 				<div class="vx-row">
-                    
                     <div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-plus"  label-placeholder="Ajouter un produit ou service" v-model="input23" />
+						<vs-input class="w-full" icon-pack="feather" icon="icon-plus" 
+						label-placeholder="Ajouter un produit ou service" v-model="input23" />
                         <br><br>
 					</div>
 				</div>
                 
                 
-                
 				<div class="vx-row">
 					<div class="vx-col w-full">
-						<vs-button class="mr-3 mb-2">Enregistrer</vs-button>	</div>
+						<vs-button class="mr-3 mb-2"  @click="Enregistrer">Enregistrer</vs-button>	
+					</div>
 				</div>
         <template slot="codeContainer">
 &lt;template&gt;
@@ -86,6 +74,9 @@
 import SelectDropdownOptions from "./components/extra-components/select/SelectDropdownOptions.vue"
 import SelectSelectingValues from "./components/extra-components/select/SelectSelectingValues.vue"
 
+import moduleDataList from "@/store/data-list/moduleDataList.js"
+import { mapActions, mapGetters } from "vuex"
+
 export default{
 	data() {
 		return {
@@ -126,12 +117,76 @@ export default{
 			input28: '',
 			input29: '',
 			input30: '',
+
+			enregistrerId: ""
 		}
-},
+	},
 
     components: {
         SelectDropdownOptions,
         SelectSelectingValues
+	},
+	computed: {
+		...mapGetters("enregistrer",["enregistrer"]),
+		currentPage() {
+			if(this.isMounted) {
+				return this.$refs.table.currentx
+			}
+			return 0
+		},
+		products() {
+			return this.$store.state.dataList.products
+		},
+		queriedItems() {
+			return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+		}
+	},
+	watch: {
+		enregistrer(data) {
+			this.input25 = data[0].client;
+			this.input26 = data[0].facture;
+			this.input23 = data[0].productOnService;
+			this.enregistrerId = data[0].id
+		}
+	},
+	methods: {
+		...mapActions("enregistrer",["ADD_ENREGISTRER", "FETCH_ENREGISTRER","DELETE_ENREGISTRER", "UPDATE_ENREGISTRER"]),
+		async Enregistrer() {
+			console.log("input25", this.input25);
+			console.log("input25", this.input26);
+			console.log("input25", this.input23);
+			let obj = {
+				client: this.input25,
+				facture: this.input26,
+				productOnService: this.input23
+			}
+
+			if (this.enregistrerId) {
+				obj.id = this.enregistrerId;
+				await this.UPDATE_ENREGISTRER(obj).then(res => {
+					this.FETCH_ENREGISTRER();
+					}
+				)
+			} else {
+				await this.ADD_ENREGISTRER(obj).then(res => {
+					this.FETCH_ENREGISTRER()
+				}).catch(err => {
+					console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+				})
+			}		
+		}
+	},
+	created() {
+		if(!moduleDataList.isRegistered) {
+			this.$store.registerModule('dataList', moduleDataList)
+			moduleDataList.isRegistered = true
+		}
+		this.$store.dispatch("dataList/fetchDataListItems")
+
+		this.FETCH_ENREGISTRER()
+	},
+	mounted() {
+		this.isMounted = true;
 	}
-    }
+}
 </script>

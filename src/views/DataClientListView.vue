@@ -354,16 +354,6 @@ export default {
     },
     resetModal() {
       // console.log("3232");
-      
-      // this.adresseCli = "",
-      // this.cpCli= "",
-      // this.emailCli= "",
-      // this.nomCli= "",
-      // this.nomRefCli= "",
-      // this.paysCli= "",
-      // this.siretCli= "",
-      // this.villeCli= ""
-      // this.nameState = null
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing

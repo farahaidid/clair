@@ -244,7 +244,6 @@ export default {
       this.sidebarData = data
       this.toggleDataSidebar(true);
 
-console.log("hello.data", data);
       this.produitId = data.id;
       this.nomProd=  data.nomProd;
       this.prixU = data.prixU;
