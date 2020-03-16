@@ -24,9 +24,6 @@
             </div>
 
             <vs-dropdown-menu>
-
-
-
               <vs-dropdown-item>
                 <span class="flex items-center" v-if="selected.length == 1" @click="editEmployee">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
@@ -39,16 +36,144 @@
                   <span>Supprimer</span>
                 </span>
               </vs-dropdown-item>
-
-
-
             </vs-dropdown-menu>
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
+          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-primary">Ajouter Client</span>
+          </div> -->
+
+          <b-button v-b-modal.modal-prevent-closing>
+            <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+            <span class="ml-2 text-base text-primary">Ajouter Client</span>
+          </b-button>
+
+          <div>
+            <b-modal id="modal-prevent-closing"
+              ref="modal"
+              title="Submit Your Name"
+              @show="resetModal"
+              @hidden="resetModal"
+              @ok="handleOk"
+            >
+              <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group
+                  :state="nameState"
+                  label="Nom"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="nom-input"
+                    v-model="nomCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="Email"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="email-input"
+                    v-model="emailCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="Siret"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="sire-input"
+                    v-model="siretCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="Adresse"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="adress-input"
+                    v-model="adresseCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="CpCli"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="cp-input"
+                    v-model="cpCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                
+                <b-form-group
+                  :state="nameState"
+                  label="nomRefCli"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="nomRef-input"
+                    v-model="nomRefCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                
+                <b-form-group
+                  :state="nameState"
+                  label="paysCli"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="pay-input"
+                    v-model="paysCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  :state="nameState"
+                  label="villeCli"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="vill-input"
+                    v-model="villeCli"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </form>
+            </b-modal>
           </div>
         </div>
 
@@ -75,11 +200,7 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-
-
-
       </div>
-
 
       <template slot="thead">
         <vs-th sort-key="nomCli">Nom</vs-th>
@@ -105,7 +226,10 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+                <b-button v-b-modal.modal-prevent-closing @click="editData(tr)">
+                  <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current"/>
+                </b-button>
+                <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" /> -->
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
               </vs-td>
 
@@ -137,6 +261,19 @@ export default {
       // Data Sidebar
       addNewDataSidebar: false,
       sidebarData: {},
+
+      nameState: null,
+      submittedNames: [],
+
+      adresseCli: "",
+      cpCli: "",
+      emailCli: "",
+      nomCli: "",
+      nomRefCli: "",
+      paysCli: "",
+      siretCli: "",
+      villeCli: "",
+      clientId: ""
     }
   },
   computed: {
@@ -155,7 +292,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("clients",["FETCH_CLIENTS","DELETE_CLIENTS"]),
+    ...mapActions("clients",["ADD_CLIENTS", "FETCH_CLIENTS","DELETE_CLIENTS", "UPDATE_CLIENTS"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
@@ -182,6 +319,16 @@ export default {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data
       this.toggleDataSidebar(true)
+
+      this.adresseCli = data.adresseCli;
+      this.cpCli= data.cpCli;
+      this.emailCli= data.emailCli;
+      this.nomCli= data.nomCli;
+      this.nomRefCli= data.nomRefCli;
+      this.paysCli= data.paysCli;
+      this.siretCli= data.siretCli;
+      this.villeCli= data.villeCli,
+      this.clientId = data.id
     },
     getOrderStatusColor(status) {
       if(status == 'on_hold') return "warning"
@@ -198,6 +345,80 @@ export default {
     },
     toggleDataSidebar(val=false) {
       this.addNewDataSidebar = val
+    },
+
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity()
+      // this.nameState = valid
+      return valid
+    },
+    resetModal() {
+      // console.log("3232");
+      
+      // this.adresseCli = "",
+      // this.cpCli= "",
+      // this.emailCli= "",
+      // this.nomCli= "",
+      // this.nomRefCli= "",
+      // this.paysCli= "",
+      // this.siretCli= "",
+      // this.villeCli= ""
+      // this.nameState = null
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.handleSubmit()
+    },
+    async handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return
+      }
+
+      let obj = {
+        adresseCli: this.adresseCli,
+        cpCli: this.cpCli,
+        emailCli: this.emailCli,
+        nomCli: this.nomCli,
+        nomRefCli: this.nomRefCli,
+        paysCli: this.paysCli,
+        siretCli: this.siretCli,
+        villeCli: this.villeCli
+      }
+
+      if (!this.clientId) {
+        await this.ADD_CLIENTS(obj).then(res => {
+          this.FETCH_CLIENTS()
+        }).catch(err => {
+          console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+        })
+      } else {
+        obj.id = this.clientId;
+        await this.UPDATE_CLIENTS(obj).then(res => {
+          this.FETCH_CLIENTS();
+
+          this.adresseCli = "";
+          this.cpCli= "";
+          this.emailCli= "";
+          this.nomCli= "";
+          this.nomRefCli= "";
+          this.paysCli= "";
+          this.siretCli= "";
+          this.villeCli= "";
+          this.clientId = "";
+          
+        }).catch(err => {
+          console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
+        })
+      }
+      
+
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
     }
   },
   created() {

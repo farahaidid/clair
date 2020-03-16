@@ -36,9 +36,6 @@
                   <span>Supprimer</span>
                 </span>
               </vs-dropdown-item>
-
-       
-
             </vs-dropdown-menu>
           </vs-dropdown>
 
@@ -48,13 +45,13 @@
               <span class="ml-2 text-base text-primary">Nouveau Produit</span>
           </div> -->
 
-          <b-button v-b-modal.modal-center>
+          <b-button v-b-modal.modal-prevent-closing>
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
             <span class="ml-2 text-base text-primary">Nouveau Produit</span>
           </b-button>
 
-          <div style="margin-top: 30%;">
-            <b-modal id="modal-center"
+          <div>
+            <b-modal id="modal-prevent-closing"
               ref="modal"
               title="Submit Your Name"
               @show="resetModal"
@@ -158,7 +155,10 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+                <b-button v-b-modal.modal-prevent-closing @click="editData(tr)">
+                  <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current"/>
+                </b-button>
+                
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
               </vs-td> 
 
@@ -191,9 +191,11 @@ export default {
       addNewDataSidebar: false,
       sidebarData: {},
 
+      produitId: "",
       nomProd: '',
       prixU: '',
       description: "",
+      name: "",
       nameState: null,
       submittedNames: []
     }
@@ -214,7 +216,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS","DELETE_PRODUITS"]),
+    ...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS","DELETE_PRODUITS", "UPDATE_PRODUITS"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
@@ -240,7 +242,13 @@ export default {
     editData(data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
       this.sidebarData = data
-      this.toggleDataSidebar(true)
+      this.toggleDataSidebar(true);
+
+console.log("hello.data", data);
+      this.produitId = data.id;
+      this.nomProd=  data.nomProd;
+      this.prixU = data.prixU;
+      this.description = data.description;
     },
     getOrderStatusColor(status) {
       if(status == 'on_hold') return "warning"
@@ -275,7 +283,6 @@ export default {
       this.handleSubmit()
     },
     async handleSubmit() {
-      console.log("hello");
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return
@@ -287,12 +294,26 @@ export default {
         description: this.description
       }
 
-      console.log("description", obj);
-      await this.ADD_PRODUITS(obj).then(res => {
-        this.FETCH_PRODUITS()
-      }).catch(err => {
-        console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
-      })
+      if (!this.produitId) {
+        await this.ADD_PRODUITS(obj).then(res => {
+          this.FETCH_PRODUITS()
+        }).catch(err => {
+          console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+        })
+      } else {
+        obj.id = this.produitId;
+        await this.UPDATE_PRODUITS(obj).then(res => {
+          this.FETCH_PRODUITS();
+
+          this.produitId = "";
+          this.nomProd= "";
+          this.prixU = "";
+          this.description = "";
+        }).catch(err => {
+          console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
+        })
+      }
+
 
       // Push the name to submitted names
       this.submittedNames.push(this.name)
