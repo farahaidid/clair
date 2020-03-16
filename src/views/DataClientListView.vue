@@ -9,7 +9,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="employes">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="clients">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -40,7 +40,7 @@
                 </span>
               </vs-dropdown-item>
 
-       
+
 
             </vs-dropdown-menu>
           </vs-dropdown>
@@ -75,11 +75,11 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-        
-       
-        
+
+
+
       </div>
-     
+
 
       <template slot="thead">
         <vs-th sort-key="nomCli">Nom</vs-th>
@@ -104,13 +104,10 @@
                 <p class="product-siretCli">{{ tr.siretCli }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
-
-
-
               <vs-td class="whitespace-no-wrap">
                 <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
-              </vs-td> 
+              </vs-td>
 
             </vs-tr>
           </tbody>
@@ -143,7 +140,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("employes",["employes"]),
+    ...mapGetters("clients",["clients"]),
     currentPage() {
       if(this.isMounted) {
         return this.$refs.table.currentx
@@ -154,18 +151,18 @@ export default {
       return this.$store.state.dataList.products
     },
     queriedItems() {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      // return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
   },
   methods: {
-    ...mapActions("clients",["FETCH_EMPLOYES","DELETE_EMPLOYEE"]),
+    ...mapActions("clients",["FETCH_CLIENTS","DELETE_CLIENTS"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
-        this.DELETE_EMPLOYEE({id:this.selected[i].id}).then(res => {
+        this.DELETE_CLIENTS({id:this.selected[i].id}).then(res => {
           console.log(res);
           if(i == this.selected.length-1){
-            this.FETCH_EMPLOYES()
+            this.FETCH_CLIENTS()
           }
         })
       }
@@ -210,7 +207,7 @@ export default {
     }
     this.$store.dispatch("dataList/fetchDataListItems")
 
-    this.FETCH_EMPLOYES()
+    this.FETCH_CLIENTS()
   },
   mounted() {
     this.isMounted = true;

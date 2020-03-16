@@ -26,6 +26,7 @@ import moduleAuth from './auth/moduleAuth.js'
 import moduleECommerce from './eCommerce/moduleECommerce.js'
 import employes from './employes'
 import produits from './produits'
+import clients from './clients'
 
 
 export default new Vuex.Store({
@@ -41,8 +42,8 @@ export default new Vuex.Store({
         auth: moduleAuth,
         eCommerce: moduleECommerce,
         employes,
-        produits
-
+        produits,
+        clients
     },
     strict: process.env.NODE_ENV !== 'production'
 })
