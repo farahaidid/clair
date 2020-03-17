@@ -4,20 +4,40 @@
 		<div class="vx-col w-full mb-base">
 			<vx-card >
 				<div class="vx-row">
-					<div class="vx-col sm:w-1/2 w-full mb-2">
+					<!-- <div class="vx-col sm:w-1/2 w-full mb-2">
 						<vs-input class="w-full" label-placeholder="Selectionner Client" v-model="input25" />
-					</div>
-					<div class="vx-col sm:w-1/2 w-full mb-2">
+					</div> -->
+					<!-- <div class="vx-col sm:w-1/2 w-full mb-2">
 						<vs-input class="w-full" label-placeholder="Facture" v-model="input26" />
+					</div> -->
+					<div class="col-6">
+						<b-dropdown block split split-variant="outline-primary" variant="primary"
+						class="m-2" :text="selectedCleint ? selectedCleint.adresseCli : 'Selectionner Client'"
+						>
+							<b-dropdown-item v-for="client in clients" :key="client.id" @click="selectClient(client)">{{client.adresseCli}}</b-dropdown-item>
+						</b-dropdown>
+					</div>
+					<div class="col-6">
+						<b-dropdown block split split-variant="outline-primary" variant="primary"
+							class="m-2" :text="selectedFacture">
+							<b-dropdown-item href="#" @click="selectFacture('Facture')">Facture</b-dropdown-item>
+							<b-dropdown-item href="#" @click="selectFacture('Avoir')">Avoir</b-dropdown-item>
+							<b-dropdown-item href="#" @click="selectFacture('Devis')">Devis</b-dropdown-item>
+						</b-dropdown>
 					</div>
 				</div>
                 
-				<div class="vx-row">
+				<div class="vx-row product-service">
                     <div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-plus" 
+						<!-- <vs-input class="w-full" icon-pack="feather" icon="icon-plus" 
 						label-placeholder="Ajouter un produit ou service" v-model="input23" />
-                        <br><br>
+                        <br><br> -->
+						<b-dropdown block split split-variant="outline-primary" variant="primary"
+							class="m-2" :text="selectedProduct && selectedProduct.prixU ? selectedProduct.prixU : 'Ajouter un produit ou service'">
+							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product)">{{product.prixU}}</b-dropdown-item>
+						</b-dropdown>
 					</div>
+					<vs-input-number class="number-input ml-20" v-model="number2" icon-inc="expand_less" icon-dec="expand_more"/>
 				</div>
                 
                 
@@ -118,16 +138,21 @@ export default{
 			input29: '',
 			input30: '',
 
-			enregistrerId: ""
+			enregistrerId: "",
+			selectedCleint: null,
+			selectedFacture: "Facture",
+			selectedProduct: null,
+			number2: 50,
 		}
 	},
 
     components: {
         SelectDropdownOptions,
-        SelectSelectingValues
+		SelectSelectingValues
 	},
 	computed: {
-		...mapGetters("enregistrer",["enregistrer"]),
+		...mapGetters("clients",["clients"]),
+		...mapGetters("produits",["produits"]),
 		currentPage() {
 			if(this.isMounted) {
 				return this.$refs.table.currentx
@@ -147,46 +172,79 @@ export default{
 			this.input26 = data[0].facture;
 			this.input23 = data[0].productOnService;
 			this.enregistrerId = data[0].id
+		},
+		produits(data) {
+			console.log("data",data);
+			
 		}
 	},
 	methods: {
-		...mapActions("enregistrer",["ADD_ENREGISTRER", "FETCH_ENREGISTRER","DELETE_ENREGISTRER", "UPDATE_ENREGISTRER"]),
+		// ...mapActions("enregistrer",["ADD_ENREGISTRER", "FETCH_ENREGISTRER","DELETE_ENREGISTRER", "UPDATE_ENREGISTRER"]),
+		...mapActions("clients",["FETCH_CLIENTS"]),
+		...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS"]),
 		async Enregistrer() {
-			console.log("input25", this.input25);
-			console.log("input25", this.input26);
-			console.log("input25", this.input23);
-			let obj = {
-				client: this.input25,
-				facture: this.input26,
-				productOnService: this.input23
-			}
+			
+			console.log("input25", this.selectedCleint);
+			console.log("input25", this.selectedFacture);
+			console.log("input25", this.selectedProduct);
+			console.log("number2", this.number2);
+			
+			// let obj = {
+			// 	client: this.input25,
+			// 	facture: this.input26,
+			// 	productOnService: this.input23
+			// }
 
-			if (this.enregistrerId) {
-				obj.id = this.enregistrerId;
-				await this.UPDATE_ENREGISTRER(obj).then(res => {
-					this.FETCH_ENREGISTRER();
-					}
-				)
-			} else {
-				await this.ADD_ENREGISTRER(obj).then(res => {
-					this.FETCH_ENREGISTRER()
-				}).catch(err => {
-					console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
-				})
-			}		
-		}
+			// if (this.enregistrerId) {
+			// 	obj.id = this.enregistrerId;
+			// 	await this.UPDATE_ENREGISTRER(obj).then(res => {
+			// 		this.FETCH_ENREGISTRER();
+			// 		}
+			// 	)
+			// } else {
+			// 	await this.ADD_ENREGISTRER(obj).then(res => {
+			// 		this.FETCH_ENREGISTRER()
+			// 	}).catch(err => {
+			// 		console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+			// 	})
+			// }
+
+
+		},
+
+		selectClient(client) {
+			this.selectedCleint = client;
+		},
+		selectFacture(text) {
+			this.selectedFacture = text;
+		},
+		selectProduit(Produit) {
+			this.selectedProduct = Produit;
+		},
 	},
 	created() {
 		if(!moduleDataList.isRegistered) {
-			this.$store.registerModule('dataList', moduleDataList)
-			moduleDataList.isRegistered = true
+		this.$store.registerModule('dataList', moduleDataList)
+		moduleDataList.isRegistered = true
 		}
 		this.$store.dispatch("dataList/fetchDataListItems")
 
-		this.FETCH_ENREGISTRER()
+		this.FETCH_CLIENTS();
+		this.FETCH_PRODUITS()
 	},
 	mounted() {
 		this.isMounted = true;
 	}
 }
 </script>
+<style lang="scss">
+	.product-service {
+		.w-full {
+			width: 80% !important;
+		}
+	}
+	.number-input {
+		height: 2rem;
+    	margin-top: 2rem;
+	}
+</style>
