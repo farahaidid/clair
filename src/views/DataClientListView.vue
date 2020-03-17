@@ -45,7 +45,7 @@
               <span class="ml-2 text-base text-primary">Ajouter Client</span>
           </div> -->
 
-          <b-button v-b-modal.modal-prevent-closing>
+          <b-button class="add-client" v-b-modal.modal-prevent-closing>
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
             <span class="ml-2 text-base text-primary">Ajouter Client</span>
           </b-button>
@@ -53,7 +53,7 @@
           <div>
             <b-modal id="modal-prevent-closing"
               ref="modal"
-              title="Submit Your Name"
+              title="Ajouter Client"
               @show="resetModal"
               @hidden="resetModal"
               @ok="handleOk"
@@ -226,17 +226,23 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <b-button v-b-modal.modal-prevent-closing @click="editData(tr)">
+                <b-button class="add-client edit-client" v-b-modal.modal-prevent-closing @click="editData(tr)">
                   <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current"/>
                 </b-button>
                 <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" /> -->
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
-              </vs-td>
+                <b-button class="add-client edit-client" v-b-modal.modal-center @click="deleteClient(tr)">
+                  <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2"/>
+                </b-button>
+                </vs-td>
 
             </vs-tr>
           </tbody>
         </template>
     </vs-table>
+
+    <b-modal id="modal-center" centered title="Delete CLient" @ok="deleteClientOk">
+      <p class="my-4">Are you sure you want to delete this?</p>
+    </b-modal>
   </div>
 </template>
 
@@ -273,7 +279,9 @@ export default {
       paysCli: "",
       siretCli: "",
       villeCli: "",
-      clientId: ""
+      clientId: "",
+
+      deleteClientId: "",
     }
   },
   computed: {
@@ -409,6 +417,17 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
+    },
+    deleteClient(tr) {
+      console.log("hello", tr);
+      this.deleteClientId = tr.id;
+    },
+    deleteClientOk() {
+      if (this.deleteClientId) {
+        this.DELETE_CLIENTS({id: this.deleteClientId}).then(res => {
+            this.FETCH_CLIENTS()
+        })
+      }
     }
   },
   created() {
@@ -545,5 +564,34 @@ export default {
       justify-content: center;
     }
   }
+}
+
+.add-client {
+  background-color: white;
+  border-color: #ccc;
+  padding: 1rem;
+  margin-top: -.7rem;
+
+  .feather-icon {
+    color: #000;
+  }
+
+  &:hover, &:active, &:active {
+    background-color: white;
+    border-color: #ccc;
+    box-shadow: none;
+  }
+}
+
+.edit-client {
+  border-color: transparent;
+
+  &:hover, &:active, &:active {
+    border-color: transparent;
+  }
+}
+
+.modal-content {
+  margin-top: 20%;
 }
 </style>
