@@ -189,7 +189,6 @@ export default{
         }
     },
     computed: {
-
     },
     methods: {
       printInvoice() {

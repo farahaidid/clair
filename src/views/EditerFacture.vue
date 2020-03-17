@@ -27,19 +27,26 @@
 					</div>
 				</div>
                 
-				<div class="vx-row product-service">
+				<div class="vx-row product-service" v-for="number in productNumbers" :key=number>
                     <div class="vx-col w-full">
-						<!-- <vs-input class="w-full" icon-pack="feather" icon="icon-plus" 
-						label-placeholder="Ajouter un produit ou service" v-model="input23" />
-                        <br><br> -->
 						<b-dropdown block split split-variant="outline-primary" variant="primary"
-							class="m-2" :text="selectedProduct && selectedProduct.prixU ? selectedProduct.prixU : 'Ajouter un produit ou service'">
-							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product)">{{product.prixU}}</b-dropdown-item>
+							class="m-2" :text="getProductSetelcted(number)">
+							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product, number)">{{product.prixU}}</b-dropdown-item>
 						</b-dropdown>
 					</div>
-					<vs-input-number class="number-input ml-20" v-model="number2" icon-inc="expand_less" icon-dec="expand_more"/>
+					<div class="vs-input-number number-input ml-20 vs-input-number-size-null vs-input-number-primary">
+						<button type="button" class="btn-less vs-input-number--button-less" @click="deQuantity(number)"><i class="vs-icon notranslate icon-scale material-icons null">expand_more</i></button><!---->
+							<input type="number" min="0" :id="number" value=50 class="vs-input-number--input" style="width: 18.2px;">
+						<button type="button" class="btn-plus vs-input-number--button-plus" @click="inQuantity(number)"><i class="vs-icon notranslate icon-scale material-icons null">expand_less</i></button>
+					</div>
+					<!-- <vs-input-number :id="number" class="number-input ml-20" v-model="quantity" icon-inc="expand_less" icon-dec="expand_more"/> -->
 				</div>
                 
+				<div class="my-5">
+					<b-button variant="outline-primary" @click="addProduct">
+						<feather-icon icon="PlusIcon" svgClasses="h-4 w-4" /> Add
+					</b-button>
+				</div>
                 
 				<div class="vx-row">
 					<div class="vx-col w-full">
@@ -141,8 +148,19 @@ export default{
 			enregistrerId: "",
 			selectedCleint: null,
 			selectedFacture: "Facture",
-			selectedProduct: null,
-			number2: 50,
+			selectedProducts: [],
+			quantity: 50,
+			productNumbers: [1],
+			getProductSetelcted(number) {
+				let pro = this.selectedProducts.find(e => e.number === number);
+				
+				if (pro) {
+					return pro.produit.prixU;
+				} else return "Ajouter un produit ou service";
+			},
+			getQuentity(q, n) {
+
+			}
 		}
 	},
 
@@ -179,37 +197,23 @@ export default{
 		}
 	},
 	methods: {
-		// ...mapActions("enregistrer",["ADD_ENREGISTRER", "FETCH_ENREGISTRER","DELETE_ENREGISTRER", "UPDATE_ENREGISTRER"]),
 		...mapActions("clients",["FETCH_CLIENTS"]),
 		...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS"]),
 		async Enregistrer() {
+			let products = [];
+
+			this.productNumbers.forEach(num => {
+				let ele = document.getElementById(num);
+				
+				let find = this.selectedProducts.find(e => e.number === num);
+				if (find) {
+					products.push({product: find.produit, quantity: ele.value});
+				}
+			})
+			console.log("products", products);
+			console.log("selectedCleint", this.selectedCleint);
+			console.log("selectedFacture", this.selectedFacture);
 			
-			console.log("input25", this.selectedCleint);
-			console.log("input25", this.selectedFacture);
-			console.log("input25", this.selectedProduct);
-			console.log("number2", this.number2);
-			
-			// let obj = {
-			// 	client: this.input25,
-			// 	facture: this.input26,
-			// 	productOnService: this.input23
-			// }
-
-			// if (this.enregistrerId) {
-			// 	obj.id = this.enregistrerId;
-			// 	await this.UPDATE_ENREGISTRER(obj).then(res => {
-			// 		this.FETCH_ENREGISTRER();
-			// 		}
-			// 	)
-			// } else {
-			// 	await this.ADD_ENREGISTRER(obj).then(res => {
-			// 		this.FETCH_ENREGISTRER()
-			// 	}).catch(err => {
-			// 		console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
-			// 	})
-			// }
-
-
 		},
 
 		selectClient(client) {
@@ -218,9 +222,24 @@ export default{
 		selectFacture(text) {
 			this.selectedFacture = text;
 		},
-		selectProduit(Produit) {
-			this.selectedProduct = Produit;
+		selectProduit(Produit, number) {
+			this.selectedProducts.push({produit: Produit, number: number})
 		},
+		addProduct() {
+			this.productNumbers.push(this.productNumbers.length + 1);
+		},
+		deQuantity(num) {
+			let ele = document.getElementById(num);
+			if (ele) {
+				ele.value = (ele.value*1) - 1;
+			}
+		},
+		inQuantity(num) {
+			let ele = document.getElementById(num);
+			if (ele) {
+				ele.value = (ele.value*1)  + 1;
+			}
+		}
 	},
 	created() {
 		if(!moduleDataList.isRegistered) {
