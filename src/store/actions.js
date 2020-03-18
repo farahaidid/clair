@@ -58,6 +58,18 @@ const actions = {
       // Change userInfo in localStorage and store
       dispatch('updateUserInfo', {userRole: payload.userRole})
     },
+
+    updateFacture ({commit}, payload) {
+      commit('UPDATE_FACTURE', payload);
+    },
+
+    updateInvoiceTask({commit}, payload) {
+      commit('UPDATE_INVOICE_TASK', payload)
+    },
+
+    updateCompanyData({commit}, payload) {
+      commit('UPDATE_COMPANY', payload)
+    }
 }
 
 export default actions

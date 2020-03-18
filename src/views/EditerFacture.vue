@@ -192,13 +192,13 @@ export default{
 			this.enregistrerId = data[0].id
 		},
 		produits(data) {
-			console.log("data",data);
-			
+
 		}
 	},
 	methods: {
 		...mapActions("clients",["FETCH_CLIENTS"]),
 		...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS"]),
+		...mapActions(["updateFacture", "updateInvoiceTask", "updateCompanyData"]),
 		async Enregistrer() {
 			let products = [];
 
@@ -210,10 +210,39 @@ export default{
 					products.push({product: find.produit, quantity: ele.value});
 				}
 			})
-			console.log("products", products);
-			console.log("selectedCleint", this.selectedCleint);
-			console.log("selectedFacture", this.selectedFacture);
-			
+			// console.log("products", products);
+			// console.log("selectedCleint", this.selectedCleint);
+			// console.log("selectedFacture", this.selectedFacture);
+
+			let task = [];
+
+			products.forEach(p => {
+				let data = {
+					id: p.product.id,
+					task: p.product.nomProd,
+					hours: p.product.prixU,
+					rate: p.quantity,
+					amount: 90000,
+				}
+
+				task.push(data);
+			});
+
+			let companyData = {
+				name: this.selectedCleint.nomCli,
+				addressLine1: this.selectedCleint.adresseCli,
+				addressLine2: this.selectedCleint.adresseCli,
+				zipcode: this.selectClient.nomRefCli,
+				mailId: this.selectClient.emailCli,
+				mobile: '+91 999 999 9999',
+			}
+
+			this.updateFacture(this.selectedFacture);
+			this.updateInvoiceTask(task);
+			this.updateCompanyData(companyData);
+
+			this.$router.push({ path: `/pages/invoice` }) 
+
 		},
 
 		selectClient(client) {

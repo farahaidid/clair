@@ -115,6 +115,18 @@ const mutations = {
     // Store data in localStorage
     localStorage.setItem("userInfo", JSON.stringify(userInfo))
   },
+
+  UPDATE_FACTURE(state, payload) {
+    state.facture = payload;
+  },
+
+  UPDATE_INVOICE_TASK(state, payload) {
+    state.invoice.tasks = payload
+  },
+
+  UPDATE_COMPANY(state, payload) {
+    state.companyDetails = payload
+  }
 }
 
 export default mutations

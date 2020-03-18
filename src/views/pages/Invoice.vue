@@ -38,7 +38,7 @@
                     <img src="@/assets/images/logo/logo.png" alt="vuexy-logo">
                 </div>
                 <div class="vx-col w-full md:w-1/2 text-right">
-                    <h1>Facture</h1>
+                    <h1>{{facture}}</h1>
                     <div class="invoice__invoice-detail mt-6">
                         <h6> NUMERO</h6>
                         <p>{{ invoiceDetails.invoiceNo }}</p>
@@ -135,6 +135,8 @@
                 </p>
             </div>
         </vx-card>
+
+        {{invoice}}
     </div>
 </template>
 
@@ -144,14 +146,14 @@ export default{
     data() {
         return {
             mailTo: "",
-            companyDetails: {
-                name: 'Microsion Technologies Pvt. Ltd.',
-                addressLine1: '9 N. Sherwood Court',
-                addressLine2: 'Elyria, OH',
-                zipcode: '94203',
-                mailId: 'hello@pixinvent.net',
-                mobile: '+91 999 999 9999',
-            },
+            // companyDetails: {
+            //     name: 'Microsion Technologies Pvt. Ltd.',
+            //     addressLine1: '9 N. Sherwood Court',
+            //     addressLine2: 'Elyria, OH',
+            //     zipcode: '94203',
+            //     mailId: 'hello@pixinvent.net',
+            //     mobile: '+91 999 999 9999',
+            // },
             recipientDetails: {
                 fullName: 'Peter Stark',
                 addressLine1: '8577 West West Drive ',
@@ -164,31 +166,40 @@ export default{
                 invoiceNo: '001/2019',
                 invoiceDate: 'Mon Dec 10 2018 07:46:00 GMT+0000 (GMT)',
             },
-            invoiceData: {
-                tasks: [
-                    {
-                        id: 1,
-                        task: 'Website Redesign',
-                        hours: 60,
-                        rate: 15,
-                        amount: 90000,
-                    },
-                    {
-                        id: 2,
-                        task: 'Newsletter template design',
-                        hours: 20,
-                        rate: 12,
-                        amount: 24000,
-                    },
-                ],
-                subtotal: 114000,
-                discountPercentage: 5,
-                discountedAmount: 5700,
-                total: 108300,
-            }
+            // invoiceData: {
+            //     tasks: [
+            //         {
+            //             id: 1,
+            //             task: 'Website Redesign',
+            //             hours: 60,
+            //             rate: 15,
+            //             amount: 90000,
+            //         },
+            //         {
+            //             id: 2,
+            //             task: 'Newsletter template design',
+            //             hours: 20,
+            //             rate: 12,
+            //             amount: 24000,
+            //         },
+            //     ],
+            //     subtotal: 114000,
+            //     discountPercentage: 5,
+            //     discountedAmount: 5700,
+            //     total: 108300,
+            // }
         }
     },
     computed: {
+        invoiceData() {
+            return this.$store.state.invoice;
+        },
+        facture() {
+            return this.$store.state.facture
+        },
+        companyDetails() {
+            return this.$store.state.companyDetails
+        }
     },
     methods: {
       printInvoice() {

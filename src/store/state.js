@@ -67,6 +67,37 @@ const state = {
     // Can be used to get current window with
     // Note: Above breakpoint state is for internal use of sidebar & navbar component
     windowWidth: null,
+    invoice: {
+        tasks: [
+          {
+              id: 1,
+              task: 'Website Redesign',
+              hours: 60,
+              rate: 15,
+              amount: 90000,
+          },
+          {
+              id: 2,
+              task: 'Newsletter template design',
+              hours: 20,
+              rate: 12,
+              amount: 24000,
+          },
+      ],
+      subtotal: 114000,
+      discountPercentage: 5,
+      discountedAmount: 5700,
+      total: 108300,
+    },
+    facture : "Facture",
+    companyDetails: {
+      name: 'Microsion Technologies Pvt. Ltd.',
+      addressLine1: '9 N. Sherwood Court',
+      addressLine2: 'Elyria, OH',
+      zipcode: '94203',
+      mailId: 'hello@pixinvent.net',
+      mobile: '+91 999 999 9999',
+  },
 }
 
 export default state
