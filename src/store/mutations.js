@@ -120,8 +120,8 @@ const mutations = {
     state.facture = payload;
   },
 
-  UPDATE_INVOICE_TASK(state, payload) {
-    state.invoice.tasks = payload
+  UPDATE_INVOICE(state, payload) {
+    state.invoice = payload
   },
 
   UPDATE_COMPANY(state, payload) {

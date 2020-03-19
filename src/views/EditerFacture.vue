@@ -31,7 +31,7 @@
                     <div class="vx-col w-full">
 						<b-dropdown block split split-variant="outline-primary" variant="primary"
 							class="m-2" :text="getProductSetelcted(number)">
-							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product, number)">{{product.prixU}}</b-dropdown-item>
+							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product, number)">{{product.nomProd}}</b-dropdown-item>
 						</b-dropdown>
 					</div>
 					<div class="vs-input-number number-input ml-20 vs-input-number-size-null vs-input-number-primary">
@@ -155,7 +155,7 @@ export default{
 				let pro = this.selectedProducts.find(e => e.number === number);
 				
 				if (pro) {
-					return pro.produit.prixU;
+					return pro.produit.nomProd;
 				} else return "Ajouter un produit ou service";
 			},
 			getQuentity(q, n) {
@@ -198,7 +198,7 @@ export default{
 	methods: {
 		...mapActions("clients",["FETCH_CLIENTS"]),
 		...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS"]),
-		...mapActions(["updateFacture", "updateInvoiceTask", "updateCompanyData"]),
+		...mapActions(["updateFacture", "updateInvoice", "updateCompanyData"]),
 		async Enregistrer() {
 			let products = [];
 
@@ -210,11 +210,10 @@ export default{
 					products.push({product: find.produit, quantity: ele.value});
 				}
 			})
-			// console.log("products", products);
-			// console.log("selectedCleint", this.selectedCleint);
-			// console.log("selectedFacture", this.selectedFacture);
-
-			let task = [];
+			
+			let task = [],
+				subTotal = 0,
+				dicount = 0;
 
 			products.forEach(p => {
 				let data = {
@@ -222,23 +221,32 @@ export default{
 					task: p.product.nomProd,
 					hours: p.product.prixU,
 					rate: p.quantity,
-					amount: 90000,
+					amount: (p.product.prixU || 1) * (p.quantity || 1),
 				}
 
 				task.push(data);
+				subTotal = subTotal + data.amount;
 			});
 
+			dicount = (5 * subTotal)/100;
+			let total = subTotal - dicount;
 			let companyData = {
 				name: this.selectedCleint.nomCli,
 				addressLine1: this.selectedCleint.adresseCli,
-				addressLine2: this.selectedCleint.adresseCli,
+				addressLine2: this.selectedCleint.villeCli,
 				zipcode: this.selectClient.nomRefCli,
 				mailId: this.selectClient.emailCli,
-				mobile: '+91 999 999 9999',
+				mobile: this.selectClient.nomRefCli,
 			}
 
 			this.updateFacture(this.selectedFacture);
-			this.updateInvoiceTask(task);
+			this.updateInvoice({
+				tasks: task,
+				subtotal: subTotal,
+				discountPercentage: 5,
+				discountedAmount: dicount,
+				total: total,
+			});
 			this.updateCompanyData(companyData);
 
 			this.$router.push({ path: `/pages/invoice` }) 

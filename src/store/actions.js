@@ -63,8 +63,8 @@ const actions = {
       commit('UPDATE_FACTURE', payload);
     },
 
-    updateInvoiceTask({commit}, payload) {
-      commit('UPDATE_INVOICE_TASK', payload)
+    updateInvoice({commit}, payload) {
+      commit('UPDATE_INVOICE', payload)
     },
 
     updateCompanyData({commit}, payload) {

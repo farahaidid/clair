@@ -73,11 +73,11 @@
                         <p>{{ companyDetails.zipcode }}</p>
                     </div>
                     <div class="invoice__company-contact">
-                        <p class="flex items-center justify-end">
+                        <p v-if="companyDetails.mailId" class="flex items-center justify-end">
                             <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
                             <span class="ml-2">{{ companyDetails.mailId }}</span>
                         </p>
-                        <p class="flex items-center justify-end">
+                        <p v-if="companyDetails.mobile" class="flex items-center justify-end">
                             <feather-icon icon="PhoneIcon" svgClasses="h-4 w-4"></feather-icon>
                             <span class="ml-2">{{ companyDetails.mobile }}</span>
                         </p>
