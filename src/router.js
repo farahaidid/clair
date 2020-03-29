@@ -108,11 +108,28 @@ const router = new Router({
                     name: 'page-knowledge-base',
                     component: () => import('@/views/pages/KnowledgeBase.vue'),
                     meta: {
-                        pageTitle: 'Vos transactions bancaires',
+                        pageTitle: 'Ressources',
                         rule: 'editor'
                     },
                 },
-               
+                   {
+                    path: '/pages/knowledge-base2',
+                    name: 'page-knowledge-base',
+                    component: () => import('@/views/pages/KnowledgeBase2.vue'),
+                    meta: {
+                        pageTitle: 'Microentreprise',
+                        rule: 'editor'
+                    },
+                },
+               {
+                    path: '/pages/knowledge-base3',
+                    name: 'page-knowledge-base',
+                    component: () => import('@/views/pages/KnowledgeBase3.vue'),
+                    meta: {
+                        pageTitle: "Mode d'Emploi",
+                        rule: 'editor'
+                    },
+                },
              
                 {
                     path: '/pages/invoice',
@@ -134,7 +151,14 @@ const router = new Router({
             //            rule: 'editor'
              //       },
             //    },
-                
+                 {
+                path: '/Banque.vue',
+                name: 'Banque',
+                component: () => import('./views/Banque.vue'),
+                    meta: {
+                        rule: 'editor'
+                    },
+              },
                 
                {
                 path: '/Comptaa.vue',
@@ -165,6 +189,50 @@ const router = new Router({
                     },
               },
             
+                  {
+                    path: '/apps/calendar/vue-simple-calendar',
+                    name: 'calendar-simple-calendar',
+                    component: () => import('./views/apps/calendar/SimpleCalendar.vue'),
+                    meta: {
+                        rule: 'editor',
+                        no_scroll: true,
+                    }
+                },
+                       {
+                    path: '/pages/knowledge-base',
+                    name: 'page-knowledge-base',
+                    component: () => import('@/views/pages/KnowledgeBase.vue'),
+                    meta: {
+                        breadcrumb: [
+                            { title: 'Home', url: '/' },
+                            { title: 'Pages' },
+                            { title: 'KnowledgeBase', active: true },
+                        ],
+                        pageTitle: 'KnowledgeBase',
+                        rule: 'editor'
+                    },
+                },
+                
+                   {
+                    path: '/pages/profile',
+                    name: 'page-profile',
+                    component: () => import('@/views/pages/Profile.vue'),
+                    meta: {
+                   
+                        rule: 'editor'
+                    },
+                },
+                
+                
+                   {
+                    path: '/entreprise',
+                    name: 'entreprise',
+                    component: () => import('@/views/Entreprise.vue'),
+                    meta: {
+                   
+                        rule: 'editor'
+                    },
+                },
         // =============================================================================            
             ],
             
@@ -231,6 +299,16 @@ const router = new Router({
                     meta: {
                         rule: 'editor'
                     }
+                },
+                
+                  {
+                    path: '/pages/faq',
+                    name: 'page-faq',
+                    component: () => import('@/views/pages/Faq.vue'),
+                    meta: {
+
+                        rule: 'editor'
+                    },
                 },
                 {
                     path: '/pages/comingsoon',

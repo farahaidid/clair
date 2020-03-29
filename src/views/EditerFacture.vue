@@ -5,21 +5,21 @@
 			<vx-card >
 				<div class="vx-row">
 					<!-- <div class="vx-col sm:w-1/2 w-full mb-2">
-						<vs-input class="w-full" label-placeholder="Selectionner Client" v-model="input25" />
+						<vs-input class="w-full rond" label-placeholder="Selectionner Client" v-model="input25" />
 					</div> -->
 					<!-- <div class="vx-col sm:w-1/2 w-full mb-2">
 						<vs-input class="w-full" label-placeholder="Facture" v-model="input26" />
 					</div> -->
 					<div class="col-6">
 						<b-dropdown block split split-variant="outline-primary" variant="primary"
-						class="m-2" :text="selectedCleint ? selectedCleint.adresseCli : 'Selectionner Client'"
+						class="m-2" :text="selectedCleint ? selectedCleint.nomCli : 'Selectionner Client'"
 						>
-							<b-dropdown-item v-for="client in clients" :key="client.id" @click="selectClient(client)">{{client.adresseCli}}</b-dropdown-item>
+							<b-dropdown-item v-for="client in clients" :key="client.id" @click="selectClient(client)">{{client.nomCli}}</b-dropdown-item>
 						</b-dropdown>
 					</div>
 					<div class="col-6">
 						<b-dropdown block split split-variant="outline-primary" variant="primary"
-							class="m-2" :text="selectedFacture">
+							class="m-2 rond" :text="selectedFacture">
 							<b-dropdown-item href="#" @click="selectFacture('Facture')">Facture</b-dropdown-item>
 							<b-dropdown-item href="#" @click="selectFacture('Avoir')">Avoir</b-dropdown-item>
 							<b-dropdown-item href="#" @click="selectFacture('Devis')">Devis</b-dropdown-item>
@@ -28,29 +28,29 @@
 				</div>
                 
 				<div class="vx-row product-service" v-for="number in productNumbers" :key=number>
-                    <div class="vx-col w-full">
+                    <div class="vx-col rond w-full">
 						<b-dropdown block split split-variant="outline-primary" variant="primary"
-							class="m-2" :text="getProductSetelcted(number)">
-							<b-dropdown-item v-for="product in produits" :key="product.id" @click="selectProduit(product, number)">{{product.nomProd}}</b-dropdown-item>
+							class="m-2 rond" :text="getProductSetelcted(number)">
+							<b-dropdown-item  v-for="product in produits" :key="product.id" @click="selectProduit(product, number)">{{product.nomProd}}</b-dropdown-item>
 						</b-dropdown>
 					</div>
 					<div class="vs-input-number number-input ml-20 vs-input-number-size-null vs-input-number-primary">
-						<button type="button" class="btn-less vs-input-number--button-less" @click="deQuantity(number)"><i class="vs-icon notranslate icon-scale material-icons null">expand_more</i></button><!---->
-							<input type="number" min="0" :id="number" value=50 class="vs-input-number--input" style="width: 18.2px;">
+						<button type="button" class="btn-less vs-input-number--button-less" size="medium" @click="deQuantity(number)"><i class="vs-icon notranslate icon-scale material-icons null">expand_more</i></button><!---->
+							<input type="number" min="0" :id="number" value=1 class="vs-input-number--input" style="width: 18.2px;">
 						<button type="button" class="btn-plus vs-input-number--button-plus" @click="inQuantity(number)"><i class="vs-icon notranslate icon-scale material-icons null">expand_less</i></button>
 					</div>
 					<!-- <vs-input-number :id="number" class="number-input ml-20" v-model="quantity" icon-inc="expand_less" icon-dec="expand_more"/> -->
 				</div>
                 
-				<div class="my-5">
-					<b-button variant="outline-primary" @click="addProduct">
-						<feather-icon icon="PlusIcon" svgClasses="h-4 w-4" /> Add
+				<div class="my-5"> 
+					<b-button class="rond cheka" variant="outline-primary" @click="addProduct">
+						<feather-icon icon="PlusIcon" svgClasses="h-4 w-4" /> Ajouter produit
 					</b-button>
 				</div>
-                
+                <br><br>
 				<div class="vx-row">
-					<div class="vx-col w-full">
-						<vs-button class="mr-3 mb-2"  @click="Enregistrer">Enregistrer</vs-button>	
+					<div class="vx-col w-full"><center>
+						<vs-button class="mr-6 mb-2 rond"  @click="Enregistrer">Enregistrer</vs-button>	</center>
 					</div>
 				</div>
         <template slot="codeContainer">
@@ -149,14 +149,14 @@ export default{
 			selectedCleint: null,
 			selectedFacture: "Facture",
 			selectedProducts: [],
-			quantity: 50,
+			quantity: 1,
 			productNumbers: [1],
 			getProductSetelcted(number) {
 				let pro = this.selectedProducts.find(e => e.number === number);
 				
 				if (pro) {
 					return pro.produit.nomProd;
-				} else return "Ajouter un produit ou service";
+				} else return "Selectionner produit";
 			},
 			getQuentity(q, n) {
 
@@ -234,7 +234,7 @@ export default{
 				name: this.selectedCleint.nomCli,
 				addressLine1: this.selectedCleint.adresseCli,
 				addressLine2: this.selectedCleint.villeCli,
-				zipcode: this.selectClient.nomRefCli,
+				zipcode: this.selectClient.cpCli,
 				mailId: this.selectClient.emailCli,
 				mobile: this.selectClient.nomRefCli,
 			}
@@ -297,10 +297,18 @@ export default{
 	.product-service {
 		.w-full {
 			width: 80% !important;
+            color:red;
 		}
 	}
 	.number-input {
 		height: 2rem;
     	margin-top: 2rem;
 	}
+    
+    
+.rond {
+  border-radius: 7px;}
+  
+.cheka {
+  border-color: transparent;}
 </style>

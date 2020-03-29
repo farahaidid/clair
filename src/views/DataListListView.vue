@@ -39,12 +39,14 @@
                   <span>Supprimer</span>
                 </span>
               </vs-dropdown-item>
+
+       
+
             </vs-dropdown-menu>
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary
-          border border-solid border-primary" @click="addNewData">
+          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-primary">Ajouter Document</span>
           </div>
@@ -73,11 +75,11 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-
-
-
+        
+       
+        
       </div>
-
+     
 
       <template slot="thead">
         <vs-th sort-key="name">Nom</vs-th>
@@ -119,7 +121,7 @@
               <vs-td class="whitespace-no-wrap">
                 <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
-              </vs-td>
+              </vs-td> 
 
             </vs-tr>
           </tbody>
@@ -301,7 +303,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 0.5rem;
+      border-spacing: 0 .5rem;
       padding: 0 1rem;
 
       tr{
@@ -318,7 +320,7 @@ export default {
             }
           }
           td.td-check{
-            // padding: 20px !important;
+         //   padding: 20px !important;
           }
       }
     }

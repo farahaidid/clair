@@ -13,11 +13,11 @@
 
         <div class="flex flex-wrap items-center justify-between">
         
-            <vs-button class="mb-base mr-3" type="border" icon-pack="feather" icon="icon icon-copy">Mes factures</vs-button>
+            <vs-button class="mb-base mr-3 rond" type="border" icon-pack="feather" icon="icon icon-copy">Mes factures</vs-button>
             
-            <vs-button class="mb-base mr-3" type="flat" icon-pack="feather" icon="icon" to="../DataClientListView.vue">Clients</vs-button>
+            <vs-button class="mb-base mr-3 rond" type="flat" icon-pack="feather" icon="icon" to="../DataClientListView.vue">Clients</vs-button>
             
-            <vs-button class="mb-base mr-3" type="flat" icon-pack="feather" icon="icon" to="../DataProduitListView.vue">Produits</vs-button>
+            <vs-button class="mb-base mr-3 rond" type="flat" icon-pack="feather" icon="icon" to="../DataProduitListView.vue">Produits</vs-button>
           <vx-input-group class="mb-base mr-3">
           
            
@@ -25,8 +25,8 @@
 
           </vx-input-group>
           <div class="flex items-center">
-            <vs-button class="mb-base mr-3" type="border" icon-pack="feather" icon="icond" to="../EditerFacture.vue">Editer Facture</vs-button>
-            <vs-button class="mb-base mr-3" icon-pack="feather" icon="icon icon-file" @click="printInvoice">Options d'Envoi</vs-button>
+            <vs-button class="mb-base mr-3 rond" type="border" icon-pack="feather" icon="icond" to="../EditerFacture.vue">Editer Facture</vs-button>
+            <vs-button class="mb-base mr-3 rond" icon-pack="feather" icon="icon icon-file" @click="printInvoice">Options d'Envoi</vs-button>
           </div>
         </div>
 
@@ -48,40 +48,24 @@
                     </div>
                 </div>
                 <div class="vx-col w-full md:w-1/2 mt-12">
-                    <h5>CLAIR COMPTA SARL</h5>
+                    <h5>CLAIR COMPTA</h5>
                     <div class="invoice__recipient-info my-4">
-                        <p>{{ recipientDetails.fullName }}</p>
+                    
                         <p>{{ recipientDetails.addressLine1 }}</p>
-                        <p>{{ recipientDetails.zipcode }}</p>
                     </div>
                     <div class="invoice__recipient-contact ">
                         <p class="flex items-center">
                             <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
                             <span class="ml-2">{{ recipientDetails.mailId }}</span>
                         </p>
-                        <p class="flex items-center">
-                            <feather-icon icon="PhoneIcon" svgClasses="h-4 w-4"></feather-icon>
-                            <span class="ml-2">{{ recipientDetails.mobile }}</span>
-                        </p>
                     </div>
                 </div>
                 <div class="vx-col w-full md:w-1/2 mt-base text-right mt-12">
+                <h6>CLIENT</h6><br>
                     <h5>{{ companyDetails.name }}</h5>
                     <div class="invoice__company-info my-4">
-                        <p>{{ companyDetails.addressLine1 }}</p>
-                        <p>{{ companyDetails.addressLine2 }}</p>
-                        <p>{{ companyDetails.zipcode }}</p>
                     </div>
-                    <div class="invoice__company-contact">
-                        <p v-if="companyDetails.mailId" class="flex items-center justify-end">
-                            <feather-icon icon="MailIcon" svgClasses="h-4 w-4"></feather-icon>
-                            <span class="ml-2">{{ companyDetails.mailId }}</span>
-                        </p>
-                        <p v-if="companyDetails.mobile" class="flex items-center justify-end">
-                            <feather-icon icon="PhoneIcon" svgClasses="h-4 w-4"></feather-icon>
-                            <span class="ml-2">{{ companyDetails.mobile }}</span>
-                        </p>
-                    </div>
+                   
 
                 </div>
             </div>
@@ -112,27 +96,26 @@
                 <!-- INVOICE SUMMARY TABLE -->
                 <vs-table hoverFlat class="w-1/2 ml-auto mt-4" :data="invoiceData">
                     <vs-tr>
-                        <vs-th>SUBTOTAL</vs-th>
+                        <vs-th>TOTAL HT</vs-th>
                         <vs-td>{{ invoiceData.subtotal }}</vs-td>
                     </vs-tr>
                     <vs-tr>
-                        <vs-th>DISCOUNT ({{ invoiceData.discountPercentage }}%)</vs-th>
+                        <vs-th>REMISE ({{ invoiceData.discountPercentage }}%)</vs-th>
                         <vs-td>{{ invoiceData.discountedAmount }}</vs-td>
                     </vs-tr>
                     <vs-tr>
-                        <th>TOTAL</th>
-                        <td>{{ invoiceData.total }}</td>
+                        <th>TOTAL TTC</th>
+                       <right> <td>{{ invoiceData.total }}</td></right>
                     </vs-tr>
                 </vs-table>
             </div>
 
             <!-- INVOICE FOOTER -->
             <div class="invoice__footer text-right p-base">
-                <p class="mb-4">Transfer the amounts to the business amount below. Please include invoice number on your check.</p>
-                <p>
-                    <span class="mr-8">BANK: <span class="font-semibold">FTSBUS33</span></span>
-                    <span>IBAN: <span class="font-semibold"> G882-1111-2222-3333 </span></span>
+                <p class="mb-4">TVA non applicable art. 293B du CG.
+                <br>Dispense d'immatriculation au RCS et au repertoire des metiers.
                 </p>
+           
             </div>
         </vx-card>
 
@@ -147,19 +130,21 @@ export default{
         return {
             mailTo: "",
             // companyDetails: {
-            //     name: 'Microsion Technologies Pvt. Ltd.',
+            //     name: 'Coca-Cola Company',
             //     addressLine1: '9 N. Sherwood Court',
             //     addressLine2: 'Elyria, OH',
+            
             //     zipcode: '94203',
             //     mailId: 'hello@pixinvent.net',
             //     mobile: '+91 999 999 9999',
             // },
             recipientDetails: {
                 fullName: 'Peter Stark',
-                addressLine1: '8577 West West Drive ',
-                addressLine2: 'Holbrook, NY',
+                sirett: ' 31096714600500',
+                addressLine1: '136 Avenue de Saint-Ouen, 75018 Paris',
+                addressLine2: '75018 Paris',
                 zipcode: '90001',
-                mailId: 'peter@mail.com',
+                mailId: 'contact@appclair.com',
                 mobile: '+91 988 888 8888',
             },
             invoiceDetails: {
@@ -236,4 +221,7 @@ export default{
     }
   }
 }
+
+.rond {
+  border-radius: 7px;}
 </style>

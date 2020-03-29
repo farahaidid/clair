@@ -40,14 +40,15 @@
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
+          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary
+          border border-solid border-primary" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-primary">Nouveau Produit</span>
+              <span class="ml-2 rounded-lg text-base text-primary">Ajouter Produit</span>
           </div> -->
 
           <b-button class="add-Produit" v-b-modal.modal-prevent-closing>
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-            <span class="ml-2 text-base text-primary">Nouveau Produit</span>
+            <span class="ml-2 text-base text-primary">Ajouter Produit</span>
           </b-button>
 
           <div>
@@ -61,7 +62,7 @@
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
                   :state="nameState"
-                  label="Nom Prod."
+                  label="Nom"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -75,7 +76,7 @@
 
                 <b-form-group
                   :state="nameState"
-                  label="PRIX UNITAIRE"
+                  label="Prix unitaire"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -428,7 +429,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 0.5rem;
+      border-spacing: 0 .5rem;
       padding: 0 1rem;
 
       tr{
@@ -445,7 +446,7 @@ export default {
             }
           }
           td.td-check{
-            // padding: 20px !important;
+          //  padding: 20px !important;
           }
       }
     }
@@ -475,22 +476,21 @@ export default {
   }
 }
 
-.vs-table tr td{
-  padding: 7px !important;
-}
+
 .add-Produit {
-  background-color: white;
-  border-color: #ccc;
+  background-color: transparent;
+  border-color: #007BB6;
   padding: 1rem;
   margin-top: -.7rem;
+  border-radius: 8px;
 
   .feather-icon {
-    color: #000;
+    color: #007BB6;
   }
 
   &:hover, &:active, &:active {
-    background-color: white;
-    border-color: #ccc;
+    background-color: #edf5f5;
+    border-color: #007BB6;
     box-shadow: none;
   }
 }

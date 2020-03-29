@@ -16,6 +16,8 @@
 
       <vs-navbar class="vx-navbar navbar-custom navbar-skelton" :color="navbarColorLocal" :class="textColor">
 
+        <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 20" />
+        
 
         <vs-spacer />
 

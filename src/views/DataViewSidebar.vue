@@ -28,14 +28,22 @@
             <img :src="dataImg" alt="img" class="responsive">
           </div>
 
+
+
           <!-- Image upload Buttons -->
           <div class="modify-img flex justify-between mt-5">
             <input type="file" class="hidden" ref="updateImgInput" @change="updateCurrImg" accept="image/*">
-            <vs-button class="mr-4" type="flat" @click="$refs.updateImgInput.click()">Update Image</vs-button>
-            <vs-button type="flat" color="#999" @click="dataImg = null">Remove Image</vs-button>
+            <vs-button class="mr-4" type="flat" @click="$refs.updateImgInput.click()">Editer</vs-button>
+            <vs-button type="flat" color="#999" @click="dataImg = null">Supprimer</vs-button>
           </div>
         </template>
 
+<center>
+         <div class="upload-img mt-5" v-if="!dataImg">
+          <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
+          <vs-button @click="$refs.uploadImgInput.click()">Ajouter fichier (PDF ou image)</vs-button>
+        </div> 
+        </center>
         
         <!-- NAME -->
         <vs-input label="Nom" v-model="dataNom" class="mt-5 w-full" name="item-name" />
@@ -79,12 +87,8 @@
         <span class="text-danger text-sm" v-show="errors.has('item-price')">{{ errors.first('item-price') }}</span> -->
 
         <!-- Upload -->
-        <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
-
-        <!-- <div class="upload-img mt-5" v-if="!dataImg">
-          <input type="file" class="hidden" ref="uploadImgInput" @change="updateCurrImg" accept="image/*">
-          <vs-button @click="$refs.uploadImgInput.click()">Upload Image</vs-button>
-        </div> -->
+  <br>
+       
       </div>
     </VuePerfectScrollbar>
 

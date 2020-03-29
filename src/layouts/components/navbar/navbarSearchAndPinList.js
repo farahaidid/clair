@@ -10,7 +10,7 @@ export default {
       {title: "Todo",                       url: "/apps/todo",                          icon: "CheckSquareIcon",    is_bookmarked: false},
       {title: "Chat",                       url: "/apps/chat",                          icon: "MessageSquareIcon",  is_bookmarked: false},
       {title: "Email",                      url: "/apps/email",                         icon: "MailIcon",           is_bookmarked: false},
-      {title: "Calendar",                   url: "/apps/calendar/vue-simple-calendar",  icon: "CalendarIcon",       is_bookmarked: false},
+      {title: "Calendar",                   url: "/apps/calendar/vue-simple-calendar",  icon: "CalendarIcon",       is_bookmarked: true},
       {title: "E-Commerce Shop",            url: "/apps/eCommerce/shop",                icon: "ShoppingCartIcon",   is_bookmarked: false},
       {title: "E-Commerce Item Detail",     url: "/apps/eCommerce/item",                icon: "SmartphoneIcon",     is_bookmarked: false},
       {title: "E-Commerce Wish List",       url: "/apps/eCommerce/wish-list",           icon: "HeartIcon",          is_bookmarked: false},
@@ -82,7 +82,7 @@ export default {
       {title: "User Edit",                 url: "/pages/user/user-edit/268",           icon: "EditIcon",           is_bookmarked: false},
       {title: "User Settings",             url: "/pages/user-settings",                icon: "SettingsIcon",       is_bookmarked: false},
       {title: "FAQ Page",                  url: "/pages/faq",                          icon: "HelpCircleIcon",     is_bookmarked: false},
-      {title: "KnowledgeBase Page",        url: "/pages/knowledge-base",               icon: "BookIcon",           is_bookmarked: false},
+      {title: "KnowledgeBase Page",        url: "/pages/knowledge-base",               icon: "HelpCircleIcon",           is_bookmarked: true},
       {title: "Search Page",               url: "/pages/search",                       icon: "SearchIcon",         is_bookmarked: false},
       {title: "Invoice Page",              url: "/pages/invoice",                      icon: "FileIcon",           is_bookmarked: false},
 

@@ -41,8 +41,8 @@ export default [
       },
   
       {
-        url: '/pages/knowledge-base',
-        slug: 'page-knowledge-base',
+        url: '/Banque.vue',
+        slug: 'banque',
         name: "Banque",
         icon: "CreditCardIcon",
       },

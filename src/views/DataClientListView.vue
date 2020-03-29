@@ -40,7 +40,7 @@
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData">
+          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary"  height="8" @click="addNewData">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-primary">Ajouter Client</span>
           </div> -->
@@ -53,7 +53,7 @@
           <div>
             <b-modal id="modal-prevent-closing"
               ref="modal"
-              title="Ajouter Client"
+              title="Nouveau Client"
               @show="resetModal"
               @hidden="resetModal"
               @ok="handleOk"
@@ -117,7 +117,7 @@
 
                 <b-form-group
                   :state="nameState"
-                  label="Cp Cli"
+                  label="Code Postal"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -130,38 +130,11 @@
                 </b-form-group>
 
                 
-                <b-form-group
-                  :state="nameState"
-                  label="Nom Ref Cli"
-                  label-for="name-input"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="nomRef-input"
-                    v-model="nomRefCli"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
 
-                
+              
                 <b-form-group
                   :state="nameState"
-                  label="Pays Cli"
-                  label-for="name-input"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="pay-input"
-                    v-model="paysCli"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  :state="nameState"
-                  label="Ville Cli"
+                  label="Ville"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -171,7 +144,9 @@
                     :state="nameState"
                     required
                   ></b-form-input>
-                </b-form-group>
+                </b-form-group>  
+              
+
               </form>
             </b-modal>
           </div>
@@ -204,7 +179,7 @@
 
       <template slot="thead">
         <vs-th sort-key="nomCli">Nom</vs-th>
-        <vs-th sort-key="emailCli">Email Client</vs-th>
+        <vs-th sort-key="emailCli">Email</vs-th>
         <vs-th sort-key="siretCli">SIRET</vs-th>
         <!-- <vs-th>Action</vs-th> -->
       </template>
@@ -240,8 +215,8 @@
         </template>
     </vs-table>
 
-    <b-modal id="modal-center" centered title="Delete CLient" @ok="deleteClientOk">
-      <p class="my-4">Are you sure you want to delete this?</p>
+    <b-modal id="modal-center" centered title="Supprimer Client" @ok="deleteClientOk">
+      <p class="my-4">Etes-vous sur.e de vouloir supprimer ce client ?</p>
     </b-modal>
   </div>
 </template>
@@ -536,7 +511,7 @@ export default {
             }
           }
           td.td-check{
-            // padding: 20px !important;
+           // padding: 20px !important;
           }
       }
     }
@@ -567,18 +542,20 @@ export default {
 }
 
 .add-client {
-  background-color: white;
-  border-color: #ccc;
+  background-color: transparent;
+  border-color: #007BB6;
   padding: 1rem;
   margin-top: -.7rem;
+  border-radius: 7px;
 
   .feather-icon {
-    color: #000;
+    color: #007BB6;
   }
 
   &:hover, &:active, &:active {
-    background-color: white;
-    border-color: #ccc;
+    background-color: #edf5f5;
+    border-color: #007BB6;
+    
     box-shadow: none;
   }
 }
@@ -594,4 +571,8 @@ export default {
 .modal-content {
   margin-top: 20%;
 }
+
+
+.rond {
+  border-radius: 7px;}
 </style>
