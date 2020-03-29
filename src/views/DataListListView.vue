@@ -93,25 +93,25 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
               <vs-td>
-                <p class="product-name font-medium truncate" >{{ tr.nom }}</p>
+                <p class="product-name font-medium truncate mb-0" >{{ tr.nom }}</p>
               </vs-td>
 
               <vs-td>
-                <p class="product-category" align="right">{{ tr.montant }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-category mb-0" align="right">{{ tr.montant }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td>
-                <p class="product-tva">{{ tr.tva }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-tva mb-0">{{ tr.tva }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
 
               <vs-td>
-                <p class="product-category">{{ tr.categorie }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-category mb-0">{{ tr.categorie }} <br><font color="#e4bcb3"></font></p>
                 <!-- <vs-progress :percent="Number(tr.popularity)" :color="getPopularityColor(Number(tr.popularity))" class="shadow-md" /> -->
               </vs-td>
 
               <vs-td>
-                <p class="product-order-status font-medium truncate" >{{ tr.date }}</p>
+                <p class="product-order-status font-medium truncate mb-0" >{{ tr.date }}</p>
               </vs-td>
 
 
@@ -301,7 +301,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 1.3rem;
+      border-spacing: 0 0.5rem;
       padding: 0 1rem;
 
       tr{
@@ -318,7 +318,7 @@ export default {
             }
           }
           td.td-check{
-            padding: 20px !important;
+            // padding: 20px !important;
           }
       }
     }

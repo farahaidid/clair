@@ -302,7 +302,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 1.3rem;
+      border-spacing: 0 0.5rem;
       padding: 0 1rem;
 
       tr{
@@ -319,7 +319,7 @@ export default {
             }
           }
           td.td-check{
-            padding: 20px !important;
+            // padding: 20px !important;
           }
       }
     }

@@ -61,7 +61,7 @@
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
                   :state="nameState"
-                  label="nomProd"
+                  label="Nom Prod."
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -143,23 +143,23 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
               <vs-td>
-                <p class="product-nomProd font-medium truncate" >{{ tr.nomProd }}</p>
+                <p class="product-nomProd font-medium truncate mb-0" >{{ tr.nomProd }}</p>
               </vs-td>
 
               <vs-td>
-                <p class="product-prixU">{{ tr.prixU }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-prixU mb-0">{{ tr.prixU }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td>
-                <p class="product-description">{{ tr.description }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-description mb-0">{{ tr.description }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <b-button class="add-Produit edit-Produit" v-b-modal.modal-prevent-closing @click="editData(tr)">
+                <b-button class="add-Produit edit-Produit p-0 mt-1" v-b-modal.modal-prevent-closing @click="editData(tr)">
                   <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current"/>
                 </b-button>
                 
-                <b-button class="add-Produit edit-Produit" v-b-modal.modal-center @click="deleteProduit(tr)">
+                <b-button class="add-Produit edit-Produit p-0 mt-1" v-b-modal.modal-center @click="deleteProduit(tr)">
                   <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2"/>
                 </b-button>
                 </vs-td> 
@@ -428,7 +428,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 1.3rem;
+      border-spacing: 0 0.5rem;
       padding: 0 1rem;
 
       tr{
@@ -445,7 +445,7 @@ export default {
             }
           }
           td.td-check{
-            padding: 20px !important;
+            // padding: 20px !important;
           }
       }
     }
@@ -475,7 +475,9 @@ export default {
   }
 }
 
-
+.vs-table tr td{
+  padding: 7px !important;
+}
 .add-Produit {
   background-color: white;
   border-color: #ccc;

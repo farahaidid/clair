@@ -117,7 +117,7 @@
 
                 <b-form-group
                   :state="nameState"
-                  label="CpCli"
+                  label="Cp Cli"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -132,7 +132,7 @@
                 
                 <b-form-group
                   :state="nameState"
-                  label="nomRefCli"
+                  label="Nom Ref Cli"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -147,7 +147,7 @@
                 
                 <b-form-group
                   :state="nameState"
-                  label="paysCli"
+                  label="Pays Cli"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -161,7 +161,7 @@
 
                 <b-form-group
                   :state="nameState"
-                  label="villeCli"
+                  label="Ville Cli"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                 >
@@ -214,23 +214,23 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
               <vs-td>
-                <p class="product-nomCli font-medium truncate" >{{ tr.nomCli }}</p>
+                <p class="product-nomCli font-medium truncate mb-0" >{{ tr.nomCli }}</p>
               </vs-td>
 
               <vs-td>
-                <p class="product-emailCli">{{ tr.emailCli }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-emailCli mb-0">{{ tr.emailCli }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td>
-                <p class="product-siretCli">{{ tr.siretCli }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-siretCli mb-0">{{ tr.siretCli }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <b-button class="add-client edit-client" v-b-modal.modal-prevent-closing @click="editData(tr)">
+                <b-button class="add-client edit-client p-0 mt-1" v-b-modal.modal-prevent-closing @click="editData(tr)">
                   <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current"/>
                 </b-button>
                 <!-- <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" /> -->
-                <b-button class="add-client edit-client" v-b-modal.modal-center @click="deleteClient(tr)">
+                <b-button class="add-client edit-client p-0 mt-1" v-b-modal.modal-center @click="deleteClient(tr)">
                   <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2"/>
                 </b-button>
                 </vs-td>
@@ -519,7 +519,7 @@ export default {
 
     .vs-table {
       border-collapse: separate;
-      border-spacing: 0 1.3rem;
+      border-spacing: 0 .5rem;
       padding: 0 1rem;
 
       tr{
@@ -536,7 +536,7 @@ export default {
             }
           }
           td.td-check{
-            padding: 20px !important;
+            // padding: 20px !important;
           }
       }
     }
