@@ -144,13 +144,14 @@ export default {
 				this.initValues()
 				this.$validator.reset()
 			} else {
-				let { id, nom, montant, tva, categorie, date } = this.data
+				let { id, nom, montant, tva, categorie, date, photo } = this.data
 				this.employeeId = id
 				this.dataNom = nom
 				this.dataMontant = montant
 				this.dataCategorie = categorie
 				this.dataTVA = tva
 				this.dataDate = date
+				this.dataImg = photo
 			}
 		}
 	},
@@ -160,9 +161,6 @@ export default {
 			dataId: null,
 			dataName: "",
 			dataCategory: null,
-
-			dataImg: null,
-			dataImgFile: null,
 
 			dataOrder_status: "pending",
 			dataPrice: 0,
@@ -176,6 +174,8 @@ export default {
 			dataTVA: "",
 			dataDate: "",
 			dataJob: "",
+			dataImg: null,
+			dataImgFile: null,
 			/* EMPLOYES-DATA */
 
 			category_choices: [
@@ -225,27 +225,23 @@ export default {
 			this.dataTVA = ""
 			this.dataDate = ""
 			this.dataJob = ""
+			this.dataImg = null
+			this.dataImgFile = null
 		},
 		async submitData() {
-
-			console.log(this.dataImgFile)
-
-			//let { ref } = await employesStorage.child("kjakljeawjelaw.png").put(this.dataImgFile)
-			try {
-				let res = await employesStorage.child("/" + this.dataImgFile.name).put(this.dataImgFile)
-				console.log(res)
-				let url = await res.ref.getDownloadURL()
-				console.log("URL", url)
-			} catch (error) {
-				console.log(error.message)
+			let url = ""
+			if(this.dataImg){
+				try {
+					let imageSnapShot = await employesStorage.child(new Date().getTime() + this.dataImgFile.name).putString(this.dataImg, 'data_url')
+					await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
+						url = imgurl
+					})
+				} catch (error) {
+					console.log(error.message)
+				}
 			}
-
-
 			this.$validator.validateAll().then(async result => {
 				if (result) {
-
-
-
 					let obj = {
 						emp_id: this.dataEmpId,
 						nom: this.dataNom,
@@ -254,31 +250,32 @@ export default {
 						date: this.dataDate,
 						tva: this.dataTVA,
 						job: this.dataJob,
+						photo: url
 					}
 					if (this.employeeId == null) {
 						/* ADD NEW */
-						// await this.ADD_EMPLOYEE(obj).then(res => {
-						// 	this.FETCH_EMPLOYES()
-						// }).catch(err => {
-						// 	console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
-						// }).finally(() => {
-						// 	this.$emit('closeSidebar')
-						// 	this.initValues()
-						// 	this.$validator.reset()
-						// })
+						await this.ADD_EMPLOYEE(obj).then(res => {
+							this.FETCH_EMPLOYES()
+						}).catch(err => {
+							console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> ADD NEW : ${err}`);
+						}).finally(() => {
+							this.$emit('closeSidebar')
+							this.initValues()
+							this.$validator.reset()
+						})
 					}
 					else {
 						/* UPDATE */
-						// obj.id = this.employeeId
-						// await this.UPDATE_EMPLOYEE(obj).then(res => {
-						// 	this.FETCH_EMPLOYES()
-						// }).catch(err => {
-						// 	console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
-						// }).finally(() => {
-						// 	this.$emit('closeSidebar')
-						// 	this.initValues()
-						// 	this.$validator.reset()
-						// })
+						obj.id = this.employeeId
+						await this.UPDATE_EMPLOYEE(obj).then(res => {
+							this.FETCH_EMPLOYES()
+						}).catch(err => {
+							console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
+						}).finally(() => {
+							this.$emit('closeSidebar')
+							this.initValues()
+							this.$validator.reset()
+						})
 					}
 				}
 			})

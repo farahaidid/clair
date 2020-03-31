@@ -27,4 +27,4 @@ let app = firebase.initializeApp(config);
 export const db = app.firestore()
 
 const storage = app.storage().ref()
-export const employesStorage = storage.child("/employes")
+export const employesStorage = storage.child("employes/")
