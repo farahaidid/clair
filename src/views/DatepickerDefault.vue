@@ -20,9 +20,23 @@
 import Datepicker from 'vuejs-datepicker';
 
 export default {
+    props:{
+        dateModel:{
+            type: Date,
+            default: null
+        }
+    },
     data() {
         return {
             date: null,
+        }
+    },
+    watch:{
+        date(v){
+            this.$emit("date-change",v)
+        },
+        dateModel(v){
+            this.date = v
         }
     },
     components: {

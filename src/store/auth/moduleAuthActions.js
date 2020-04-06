@@ -32,6 +32,7 @@ export default {
 
                 // If success try to login
                 .then(function() {
+                    console.log(firebase.auth());
                     dispatch('login', newPayload)
                 })
 

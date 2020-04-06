@@ -4,6 +4,7 @@
 
 import firebase from 'firebase'
 import "firebase/storage"
+import firebaseApp from 'firebase/app'
 
 // Initialize Firebase
 var config = {
@@ -23,8 +24,9 @@ var config = {
 };
 
 let app = firebase.initializeApp(config);
-
+export const fb = firebaseApp
 export const db = app.firestore()
 
 const storage = app.storage().ref()
 export const employesStorage = storage.child("employes/")
+export const entrepriseStorage = storage.child("entreprise/")

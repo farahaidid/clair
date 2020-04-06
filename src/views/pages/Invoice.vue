@@ -35,7 +35,7 @@
             <!-- INVOICE METADATA -->
             <div class="vx-row leading-loose p-base">
                 <div class="vx-col w-full md:w-1/2 mt-base">
-                    <img src="@/assets/images/logo/logo.png" alt="vuexy-logo">
+                    <img :src="logo" alt="vuexy-logo" class="logo">
                 </div>
                 <div class="vx-col w-full md:w-1/2 text-right">
                     <h1>{{facture}}</h1>
@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 
 export default{
     data() {
@@ -176,6 +177,10 @@ export default{
         }
     },
     computed: {
+        ...mapGetters("entreprise",["entreprise"]),
+        logo(){
+            return this.entreprise.logo || require("@/assets/images/logo/logo.png")
+        },
         invoiceData() {
             return this.$store.state.invoice;
         },
@@ -224,4 +229,7 @@ export default{
 
 .rond {
   border-radius: 7px;}
+  .logo{
+      width: 70px;
+  }
 </style>

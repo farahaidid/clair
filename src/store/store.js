@@ -15,6 +15,7 @@ import state from "./state"
 import getters from "./getters"
 import mutations from "./mutations"
 import actions from "./actions"
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
@@ -27,23 +28,26 @@ import moduleECommerce from './eCommerce/moduleECommerce.js'
 import employes from './employes'
 import produits from './produits'
 import clients from './clients'
+import entreprise from './entreprise'
 
 
 export default new Vuex.Store({
-    getters,
-    mutations,
-    state,
-    actions,
-    modules: {
-        // todo: moduleTodo,
-        // calendar: moduleCalendar,
-        // chat: moduleChat,
-        // email: moduleEmail,
-        auth: moduleAuth,
-        eCommerce: moduleECommerce,
-        employes,
-        produits,
-        clients
-    },
-    strict: process.env.NODE_ENV !== 'production'
+  plugins: [createPersistedState()],
+  getters,
+  mutations,
+  state,
+  actions,
+  modules: {
+    // todo: moduleTodo,
+    // calendar: moduleCalendar,
+    // chat: moduleChat,
+    // email: moduleEmail,
+    auth: moduleAuth,
+    eCommerce: moduleECommerce,
+    employes,
+    produits,
+    clients,
+    entreprise
+  },
+  strict: process.env.NODE_ENV !== 'production'
 })

@@ -26,6 +26,7 @@
     "instantsearch.css": "^7.3.1",
     "jsonwebtoken": "^8.5.1",
     "material-icons": "^0.3.1",
+    "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
     "postcss-rtl": "^1.5.0",
     "prismjs": "^1.16.0",
@@ -63,6 +64,7 @@
     "vuejs-datepicker": "^1.5.4",
     "vuesax": "3.11.1",
     "vuex": "^3.1.1",
+    "vuex-persistedstate": "^3.0.1",
     "xlsx": "^0.15.0"
   },
   "devDependencies": {
