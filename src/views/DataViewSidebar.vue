@@ -229,17 +229,17 @@ export default {
 			this.dataImgFile = null
 		},
 		async submitData() {
-			let url = ""
-			if(this.dataImg){
-				try {
-					let imageSnapShot = await employesStorage.child(new Date().getTime() + this.dataImgFile.name).putString(this.dataImg, 'data_url')
-					await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
-						url = imgurl
-					})
-				} catch (error) {
-					console.log(error.message)
-				}
-			}
+			let url = this.dataImg
+			// if(this.dataImg){
+			// 	try {
+			// 		let imageSnapShot = await employesStorage.child(new Date().getTime() + this.dataImgFile.name).putString(this.dataImg, 'data_url')
+			// 		await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
+			// 			url = imgurl
+			// 		})
+			// 	} catch (error) {
+			// 		console.log(error.message)
+			// 	}
+			// }
 			this.$validator.validateAll().then(async result => {
 				if (result) {
 					let obj = {

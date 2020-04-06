@@ -124,7 +124,8 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapGetters,mapActions} from "vuex"
+import GLOBAL from "@/mixins/GLOBAL"
 
 export default{
     data() {
@@ -176,6 +177,7 @@ export default{
             // }
         }
     },
+    mixins:[GLOBAL],
     computed: {
         ...mapGetters("entreprise",["entreprise"]),
         logo(){
@@ -192,11 +194,15 @@ export default{
         }
     },
     methods: {
+        ...mapActions("entreprise",["FETCH_ENTREPRISE"]),
       printInvoice() {
         window.print()
       }
     },
     components: {},
+    async created(){
+        await this.FETCH_ENTREPRISE(this.firebaseUserId)
+    },
     mounted() {
       this.$emit("setAppClasses", "invoice-page")
     }

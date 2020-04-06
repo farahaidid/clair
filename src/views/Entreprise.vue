@@ -328,16 +328,16 @@ export default {
 			handler(v){
 				if(v){
 					console.log("ENTREPRISE-UPDATED",v);
-					this.formData.nomEntreprise = this.entreprise.nomEntreprise
-					this.formData.siren = this.entreprise.siren
-					this.formData.adresse = this.entreprise.nomEntreprise
-					this.formData.codePostal = this.entreprise.nomEntreprise
-					this.formData.ville = this.entreprise.ville
-					this.formData.codeNAF = this.entreprise.codeNAF
-					this.formData.formeSociale = this.entreprise.formeSociale
-					this.formData.numeroTVA = this.entreprise.numeroTVA
-					this.formData.finExercice = new Date(this.entreprise.finExercice*1000)
-					this.formData.logo = this.entreprise.logo
+					this.formData.nomEntreprise = this.entreprise.nomEntreprise || ""
+					this.formData.siren = this.entreprise.siren || ""
+					this.formData.adresse = this.entreprise.nomEntreprise || ""
+					this.formData.codePostal = this.entreprise.nomEntreprise || ""
+					this.formData.ville = this.entreprise.ville || ""
+					this.formData.codeNAF = this.entreprise.codeNAF || ""
+					this.formData.formeSociale = this.entreprise.formeSociale || ""
+					this.formData.numeroTVA = this.entreprise.numeroTVA || ""
+					this.formData.finExercice = this.entreprise.finExercice ? new Date(this.entreprise.finExercice*1000) : new Date()
+					this.formData.logo = this.entreprise.logo || ""
 				}
 			},deep:true
 		}
@@ -349,17 +349,17 @@ export default {
 		},
 		async updateEntreprise(){
 			let url = this.formData.logo
-			if(this.formData.logo){
-				try {
-					let imageSnapShot = await entrepriseStorage.child(new Date().getTime().toString()).putString(this.formData.logo, 'data_url')
-					await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
-						console.log("IMAGE",imgurl);
-						url = imgurl
-					})
-				} catch (error) {
-					console.log(error.message)
-				}
-			}
+			// if(this.formData.logo){
+			// 	try {
+			// 		let imageSnapShot = await entrepriseStorage.child(new Date().getTime().toString()).putString(this.formData.logo, 'data_url')
+			// 		await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
+			// 			console.log("IMAGE",imgurl);
+			// 			url = imgurl
+			// 		})
+			// 	} catch (error) {
+			// 		console.log(error.message)
+			// 	}
+			// }
 			let obj = Object.assign({uid: this.firebaseUserId},this.formData,{logo: url},{finExercice: moment(this.formData.finExercice).format("X")})
 			console.log(obj);
 			await this.UPDATE_ENTREPRISE(obj).then(async res => {
