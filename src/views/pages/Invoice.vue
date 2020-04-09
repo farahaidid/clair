@@ -100,7 +100,7 @@
                         <vs-td>{{ invoiceData.subtotal }}</vs-td>
                     </vs-tr>
                     <vs-tr>
-                        <vs-th>REMISE ({{ invoiceData.discountPercentage }}%)</vs-th>
+                        <vs-th>TVA</vs-th>
                         <vs-td>{{ invoiceData.discountedAmount }}</vs-td>
                     </vs-tr>
                     <vs-tr>

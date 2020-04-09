@@ -49,8 +49,13 @@
 				</div>
                 <br><br>
 				<div class="vx-row">
-					<div class="vx-col w-full"><center>
-						<vs-button class="mr-6 mb-2 rond"  @click="Enregistrer">Enregistrer</vs-button>	</center>
+					<div class="vx-col w-full">
+                    <center>
+						<vs-button class="mr-6 mb-2 rond"  @click="Enregistrer">Enregistrer</vs-button>
+                        <br>
+                              <vs-checkbox v-model="checkBox1">TVA</vs-checkbox>	
+                        
+                    </center>
 					</div>
 				</div>
         <template slot="codeContainer">
