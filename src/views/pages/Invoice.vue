@@ -104,6 +104,7 @@
 						<vs-th>DESCRIPTION</vs-th>
 						<vs-th>PRIX UNITAIRE</vs-th>
 						<vs-th>QUANTITE</vs-th>
+						<vs-th>TAUX TVA</vs-th>
 						<vs-th>MONTANT</vs-th>
 					</template>
 
@@ -113,6 +114,7 @@
 							<vs-td :data="data[index].task">{{ data[index].task }}</vs-td>
 							<vs-td :data="data[index].hours">{{ data[index].hours }}</vs-td>
 							<vs-td :data="data[index].rate">{{ data[index].rate }}</vs-td>
+							<vs-td>20%</vs-td>
 							<vs-td :data="data[index].amount">{{ data[index].amount }}</vs-td>
 						</vs-tr>
 					</template>
