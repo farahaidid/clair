@@ -216,8 +216,11 @@
 						<datepicker-default :dateModel="formData.finExercice" @date-change="finExerciceChanged"></datepicker-default>
 					</div>
 				</div>
+                	<br />
+							<vs-checkbox v-model="checkboxTva">J'adhere a une AGA</vs-checkbox>
+			
 				<br />
-				<br />
+                
 				<br />
 
 				<br />

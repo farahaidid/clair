@@ -24,21 +24,15 @@
               <div class="px-8 pt-8 login-tabs-container">
 
                 <div class="vx-card__title mb-4">
-                  <h4 class="mb-4">Login</h4>
-                  <p>Welcome back, please login to your account.</p>
-                </div>
+                  <h4 class="mb-4">Se connecter</h4>
+                     </div>
 
                 <vs-tabs>
-                  <vs-tab label="JWT">
-                    <login-jwt></login-jwt>
-                  </vs-tab>
+<br>
 
-                  <vs-tab label="Firebase">
+                  <vs-tab label="Veuillez indiquer vos identifiants">
                     <login-firebase></login-firebase>
-                  </vs-tab>
 
-                  <vs-tab label="Auth0">
-                    <login-auth0></login-auth0>
                   </vs-tab>
                 </vs-tabs>
 
@@ -53,15 +47,11 @@
 
 
 <script>
-import LoginJwt from "./LoginJWT.vue"
 import LoginFirebase from "./LoginFirebase.vue"
-import LoginAuth0 from "./LoginAuth0.vue"
 
 export default {
   components: {
-    LoginJwt,
-    LoginFirebase,
-    LoginAuth0
+    LoginFirebase
   }
 }
 </script>

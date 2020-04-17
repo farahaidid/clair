@@ -20,22 +20,13 @@
                         <div class="vx-col sm:w-full md:w-full lg:w-1/2 mx-auto self-center  d-theme-dark-bg">
                             <div class="px-8 pt-8 register-tabs-container">
                                 <div class="vx-card__title mb-4">
-                                    <h4 class="mb-4">Create Account</h4>
-                                    <p>Fill the below form to create a new account.</p>
+                                    <h4 class="mb-4">Creer un compte</h4><br>
                                 </div>
                                 <vs-tabs>
-                                  <vs-tab label="JWT">
-                                    <register-jwt></register-jwt>
-                                  </vs-tab>
-
-                                  <vs-tab label="Firebase">
+                                 
                                     <register-firebase></register-firebase>
-                                  </vs-tab>
 
-                                  <vs-tab label="Auth0">
-                                    <register-auth0></register-auth0>
-                                  </vs-tab>
-                                </vs-tabs>
+                                  </vs-tabs>
                             </div>
                         </div>
                     </div>

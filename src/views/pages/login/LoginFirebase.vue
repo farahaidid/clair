@@ -20,19 +20,19 @@
         icon-no-border
         icon="icon icon-lock"
         icon-pack="feather"
-        label-placeholder="Password"
+        label-placeholder="Mot de passe"
         v-model="password"
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
     <div class="flex flex-wrap justify-between my-5">
-        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Remember Me</vs-checkbox>
-        <router-link to="/pages/forgot-password">Forgot Password?</router-link>
+        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Se souvenir de moi</vs-checkbox>
+        <router-link to="/pages/forgot-password">Mot de passe oublie ?</router-link>
     </div>
-    <vs-button  type="border" @click="registerUser">Register</vs-button>
-    <vs-button class="float-right" :disabled="!validateForm" @click="login">Login</vs-button>
+    <vs-button  type="border" @click="registerUser">S'inscrire</vs-button>
+    <vs-button class="float-right" :disabled="!validateForm" @click="login">Connection</vs-button>
 
-    <vs-divider>OR</vs-divider>
+    <vs-divider>OU</vs-divider>
 
     <div class="social-login-buttons flex flex-wrap items-center mt-4">
 

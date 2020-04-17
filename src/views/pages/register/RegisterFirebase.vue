@@ -5,7 +5,7 @@
       data-vv-validate-on="blur"
       label-placeholder="Name"
       name="displayName"
-      placeholder="Name"
+      placeholder="Nom de votre Entreprise"
       v-model="displayName"
       class="w-full" />
     <span class="text-danger text-sm">{{ errors.first('displayName') }}</span>
@@ -28,7 +28,7 @@
       v-validate="'required|min:6|max:10'"
       name="password"
       label-placeholder="Password"
-      placeholder="Password"
+      placeholder="Mot de passe"
       v-model="password"
       class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
@@ -39,15 +39,14 @@
       data-vv-validate-on="blur"
       data-vv-as="password"
       name="confirm_password"
-      label-placeholder="Confirm Password"
-      placeholder="Confirm Password"
+      label-placeholder="Confirmer mot de passe"
+      placeholder="Confirmer mot de passe"
       v-model="confirm_password"
       class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('confirm_password') }}</span>
 
-    <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">I accept the terms & conditions.</vs-checkbox>
-    <vs-button  type="border" to="/pages/login" class="mt-6">Login</vs-button>
-    <vs-button class="float-right mt-6" @click="registerUser" :disabled="!validateForm">Register</vs-button>
+    <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">J'ai pris connaissance et accepte les CGU.</vs-checkbox>
+    <vs-button class="float-right mt-6" @click="registerUser" :disabled="!validateForm">Je m'inscris</vs-button>
   </div>
 </template>
 

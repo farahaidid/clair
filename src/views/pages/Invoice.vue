@@ -70,7 +70,7 @@
 				<div class="vx-col w-full md:w-1/2 mt-12">
 					<h5>{{entreprise ? entreprise.nomEntreprise : 'CLAIR COMPTA'}}</h5>
 					<div class="invoice__recipient-info my-4">
-						<p>{{entreprise? entreprise.siren:'' }}</p>
+						<p>SIREN: {{entreprise? entreprise.siren:'' }}</p>
 					</div>
 					<div v-if="entreprise" class="invoice__recipient-info my-4">
 						<p>{{entrepriseAddress }}</p>
@@ -120,17 +120,17 @@
 				<vs-table hoverFlat class="w-1/2 ml-auto mt-4" :data="invoiceData">
 					<vs-tr>
 						<vs-th>TOTAL HT</vs-th>
-						<vs-td>{{ invoiceData.subtotal }}</vs-td>
+						<vs-td>{{ invoiceData.subtotal }} &euro;</vs-td>
 					</vs-tr>
 					<vs-tr>
 						<vs-th>TVA</vs-th>
-						<vs-td v-if="invoiceData.tva">{{ calculatedTva }}</vs-td>
-						<vs-td v-else>{{ invoiceData.discountedAmount }}</vs-td>
+						<vs-td v-if="invoiceData.tva">{{ calculatedTva }} &euro;</vs-td>
+						<vs-td v-else>{{ invoiceData.discountedAmount }} &euro;</vs-td>
 					</vs-tr>
 					<vs-tr>
 						<th>TOTAL TTC</th>
-						<vs-td v-if="invoiceData.tva">{{ invoiceData.subtotal + calculatedTva }}</vs-td>
-						<vs-td v-else>{{ invoiceData.total }}</vs-td>
+						<vs-td v-if="invoiceData.tva">{{ invoiceData.subtotal + calculatedTva }} &euro;</vs-td>
+						<vs-td v-else>{{ invoiceData.total }} &euro;</vs-td>
 					</vs-tr>
 				</vs-table>
 			</div>
@@ -138,9 +138,15 @@
 			<!-- INVOICE FOOTER -->
 			<div class="invoice__footer text-right p-base">
 				<p class="mb-4">
+            
+             A regler pour le: 
+            <br><br>
 					<span v-if="invoiceData.tva">Numero de TVA : {{entreprise&&entreprise.numeroTVA}}</span>
 					<span v-else>TVA non applicable art. 293B du CG.</span>
-					<br />Dispense d'immatriculation au RCS et au repertoire des metiers.
+					<br />
+                    
+                    Indemnit&eacute; forfaitaire de 40 &euro; pour frais de recouvrement, en cas de retard de paiement.<br>
+                    Dispense d'immatriculation au RCS et au repertoire des metiers.
 				</p>
 			</div>
 		</vx-card>

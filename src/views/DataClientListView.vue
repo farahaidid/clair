@@ -115,36 +115,12 @@
                   ></b-form-input>
                 </b-form-group>
 
-                <b-form-group
-                  :state="nameState"
-                  label="Code Postal"
-                  label-for="name-input"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="cp-input"
-                    v-model="cpCli"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+            
 
                 
 
               
-                <b-form-group
-                  :state="nameState"
-                  label="Ville"
-                  label-for="name-input"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="vill-input"
-                    v-model="villeCli"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>  
+               
               
 
               </form>
