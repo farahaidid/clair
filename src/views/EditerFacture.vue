@@ -294,6 +294,7 @@ export default {
 				zipcode: this.selectClient.cpCli,
 				mailId: this.selectClient.emailCli,
 				mobile: this.selectClient.nomRefCli,
+				siret: this.selectedCleint.siretCli
 			}
 
 			this.updateFacture(this.selectedFacture);

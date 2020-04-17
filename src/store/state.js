@@ -97,6 +97,7 @@ const state = {
       zipcode: '94203',
       mailId: 'hello@pixinvent.net',
       mobile: '+91 999 999 9999',
+      siret: ""
   },
 }
 

@@ -89,6 +89,8 @@
 					<h6>CLIENT</h6>
 					<br />
 					<h5>{{ companyDetails.name }}</h5>
+					<h5 v-if="companyDetails && companyDetails.siret">{{companyDetails.siret}}</h5>
+					<h5>{{companyDetails.addressLine1}}</h5>
 					<div class="invoice__company-info my-4"></div>
 				</div>
 			</div>
@@ -220,7 +222,7 @@ export default {
 			return this.$store.state.facture
 		},
 		companyDetails() {
-			return this.$store.state.companyDetails
+			return this.$store.state.companyDetails;		
 		},
 		calculatedTva() {
 			return (this.invoiceData.subtotal / 100) * 20
