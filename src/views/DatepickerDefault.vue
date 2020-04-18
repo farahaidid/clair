@@ -21,7 +21,7 @@ import Datepicker from 'vuejs-datepicker';
 
 export default {
     props:{
-        dateModel:{
+        dateModel: {
             type: Date,
             default: null
         }
@@ -29,6 +29,7 @@ export default {
     data() {
         return {
             date: null,
+            placeholder: "31 Decembre"
         }
     },
     watch:{

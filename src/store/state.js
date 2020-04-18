@@ -98,7 +98,13 @@ const state = {
       mailId: 'hello@pixinvent.net',
       mobile: '+91 999 999 9999',
       siret: ""
-  },
+    },
+    invoiceDetails: {
+      invoiceNo: '001/2019',
+      invoiceDate: 'Mon Dec 10 2018 07:46:00 GMT+0000 (GMT)',
+      invoiceReglerLe: '',
+      userText: "Mentions complémentaires"
+    },
 }
 
 export default state

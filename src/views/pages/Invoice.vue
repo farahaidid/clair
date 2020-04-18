@@ -143,7 +143,7 @@
 			<div class="invoice__footer text-right p-base">
 				<p class="mb-4">
             
-             A regler pour le: 
+             A regler pour le: {{ invoiceDetails.invoiceReglerLe | date(true) }}
             <br><br>
 					<span v-if="invoiceData.tva">Numero de TVA : {{entreprise&&entreprise.numeroTVA}}</span>
 					<span v-else>TVA non applicable art. 293B du CG.</span>
@@ -151,6 +151,8 @@
                     
                     Indemnit&eacute; forfaitaire de 40 &euro; pour frais de recouvrement, en cas de retard de paiement.<br>
                     Dispense d'immatriculation au RCS et au repertoire des metiers.
+					<br />
+					<span>{{invoiceDetails.userText}}</span>
 				</p>
 			</div>
 		</vx-card>
@@ -183,32 +185,6 @@ export default {
 				mailId: 'contact@appclair.com',
 				mobile: '+91 988 888 8888',
 			},
-			invoiceDetails: {
-				invoiceNo: '001/2019',
-				invoiceDate: 'Mon Dec 10 2018 07:46:00 GMT+0000 (GMT)',
-			},
-			// invoiceData: {
-			//     tasks: [
-			//         {
-			//             id: 1,
-			//             task: 'Website Redesign',
-			//             hours: 60,
-			//             rate: 15,
-			//             amount: 90000,
-			//         },
-			//         {
-			//             id: 2,
-			//             task: 'Newsletter template design',
-			//             hours: 20,
-			//             rate: 12,
-			//             amount: 24000,
-			//         },
-			//     ],
-			//     subtotal: 114000,
-			//     discountPercentage: 5,
-			//     discountedAmount: 5700,
-			//     total: 108300,
-			// }
 		}
 	},
 	mixins: [GLOBAL],
@@ -225,6 +201,9 @@ export default {
 		},
 		companyDetails() {
 			return this.$store.state.companyDetails;		
+		},		
+		invoiceDetails() {
+			return this.$store.state.invoiceDetails;
 		},
 		calculatedTva() {
 			return (this.invoiceData.subtotal / 100) * 20

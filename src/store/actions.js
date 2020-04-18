@@ -69,6 +69,10 @@ const actions = {
 
     updateCompanyData({commit}, payload) {
       commit('UPDATE_COMPANY', payload)
+    },
+
+    updateInvoiceDetails({commit}, payload) {
+      commit('UPDATE_INVOICE_DETAILS', payload)
     }
 }
 

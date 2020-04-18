@@ -126,6 +126,10 @@ const mutations = {
 
   UPDATE_COMPANY(state, payload) {
     state.companyDetails = payload
+  },
+
+  UPDATE_INVOICE_DETAILS(state, payload) {
+    state.invoiceDetails = payload
   }
 }
 

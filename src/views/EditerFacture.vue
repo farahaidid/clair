@@ -11,23 +11,11 @@
 						<vs-input class="w-full" label-placeholder="Facture" v-model="input26" />
 					</div>-->
 					<div class="col-6">
-						<b-dropdown
-							block
-							split
-							split-variant="outline-primary"
-							variant="primary"
-							class="m-2"
-							:text="selectedCleint ? selectedCleint.nomCli : 'Selectionner Client'"
-						>
-							<b-dropdown-item
-								v-for="client in clients"
-								:key="client.id"
-								@click="selectClient(client)"
-							>{{client.nomCli}}</b-dropdown-item>
-						</b-dropdown>
+						<v-select placeholder="Selectionner Client" label="nomCli" 
+						:options="clients" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="selectedCleint"/>
 					</div>
 					<div class="col-6">
-						<b-dropdown
+						<!-- <b-dropdown
 							block
 							split
 							split-variant="outline-primary"
@@ -38,16 +26,43 @@
 							<b-dropdown-item href="#" @click="selectFacture('Facture')">Facture</b-dropdown-item>
 							<b-dropdown-item href="#" @click="selectFacture('Avoir')">Avoir</b-dropdown-item>
 							<b-dropdown-item href="#" @click="selectFacture('Devis')">Devis</b-dropdown-item>
-						</b-dropdown>
+						</b-dropdown> -->
+						<!-- <div class="form-group row">
+							<label for="staticFacture" class="col-sm-2 col-form-label">Facture</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" v-model="facture">
+							</div>
+						</div> -->
+						<div class="vx-row mb-6">
+							<div class="vx-col sm:w-1/3 w-full">
+								<span>Fecture</span>
+							</div>
+							<div class="vx-col sm:w-2/3 w-full">
+								<vs-input class="w-full" icon-no-border v-model="facture" />
+							</div>
+						</div>
+						<div class="vx-row mb-6">
+							<div class="vx-col sm:w-1/3 w-full">
+								<span>Date</span>
+							</div>
+							<div class="vx-col sm:w-2/3 w-full">
+								<datepicker-default :dateModel="date" @date-change="dateChanged"></datepicker-default>
+							</div>
+						</div>
+						<div class="vx-row mb-6">
+							<div class="vx-col sm:w-1/3 w-full">
+								<span>A régler le</span>
+							</div>
+							<div class="vx-col sm:w-2/3 w-full">
+								<datepicker-default :dateModel="reglerLe" @date-change="reglerLeChanged"></datepicker-default>
+							</div>
+						</div>
 					</div>
 				</div>
 
-
-					
-
-				<div class="vx-row product-service" v-for="number in productNumbers" :key="number">
+				<div class="vx-row product-service mt-5" v-for="number in productNumbers" :key="number">
 					<div class="vx-col rond w-full">
-						<b-dropdown
+						<!-- <b-dropdown
 							block
 							split
 							split-variant="outline-primary"
@@ -60,11 +75,11 @@
 								:key="product.id"
 								@click="selectProduit(product, number)"
 							>{{product.nomProd}}</b-dropdown-item>
-						</b-dropdown>
+						</b-dropdown> -->
+						<v-select placeholder="Selectionner Produit" label="nomProd" :value="$store.myValue"
+						:options="getProduits(produits, number)" :dir="$vs.rtl ? 'rtl' : 'ltr'" @input="setSelected"/>
 					</div>
-					<div
-						class="vs-input-number number-input ml-20 vs-input-number-size-null vs-input-number-primary"
-					>
+					<div class="vs-input-number number-input ml-20 vs-input-number-size-null vs-input-number-primary">
 						<button
 							type="button"
 							class="btn-less vs-input-number--button-less"
@@ -98,6 +113,13 @@
 						<feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />Ajouter produit
 					</b-button>
 				</div>
+
+				<div class="vx-row mb-6">
+					<div class="vx-col sm:w-3/3 w-full">
+						<vs-textarea class="w-full" icon-no-border v-model="userText" />
+					</div>
+				</div>
+
 				<br />
 				<br />
 				<div class="vx-row">
@@ -154,8 +176,11 @@
 </template>
 
 <script>
-import SelectDropdownOptions from "./components/extra-components/select/SelectDropdownOptions.vue"
-import SelectSelectingValues from "./components/extra-components/select/SelectSelectingValues.vue"
+import SelectDropdownOptions from "./components/extra-components/select/SelectDropdownOptions.vue";
+import SelectSelectingValues from "./components/extra-components/select/SelectSelectingValues.vue";
+import DatepickerDefault from "./DatepickerDefault.vue";
+
+import vSelect from 'vue-select'
 
 import moduleDataList from "@/store/data-list/moduleDataList.js"
 import { mapActions, mapGetters } from "vuex"
@@ -217,13 +242,31 @@ export default {
 			},
 			getQuentity(q, n) {
 
-			}
+			},
+			getProduits(product, number) {
+				let data = [];
+
+				if (product && product.length) {
+					product.forEach(e => {
+						e.number = number;
+						data.push(e)
+					})
+				}
+				
+				return data;
+			},
+			facture: '2020-0001',
+			date: new Date(),
+			reglerLe: null,
+			userText: 'Mentions complémentaires'
 		}
 	},
 
 	components: {
 		SelectDropdownOptions,
-		SelectSelectingValues
+		SelectSelectingValues,
+		DatepickerDefault,
+		'v-select': vSelect,
 	},
 	computed: {
 		...mapGetters("clients", ["clients"]),
@@ -250,12 +293,16 @@ export default {
 		},
 		produits(data) {
 
+		},
+		selected(data) {
+			console.log("data", data);
+			
 		}
 	},
 	methods: {
 		...mapActions("clients", ["FETCH_CLIENTS"]),
 		...mapActions("produits", ["ADD_PRODUITS", "FETCH_PRODUITS"]),
-		...mapActions(["updateFacture", "updateInvoice", "updateCompanyData"]),
+		...mapActions(["updateFacture", "updateInvoice", "updateCompanyData", "updateInvoiceDetails"]),
 		async Enregistrer() {
 			let products = [];
 
@@ -291,9 +338,9 @@ export default {
 				name: this.selectedCleint.nomCli,
 				addressLine1: this.selectedCleint.adresseCli,
 				addressLine2: this.selectedCleint.villeCli,
-				zipcode: this.selectClient.cpCli,
-				mailId: this.selectClient.emailCli,
-				mobile: this.selectClient.nomRefCli,
+				zipcode: this.selectedCleint.cpCli,
+				mailId: this.selectedCleint.emailCli,
+				mobile: this.selectedCleint.nomRefCli,
 				siret: this.selectedCleint.siretCli
 			}
 
@@ -308,18 +355,25 @@ export default {
 			});
 			this.updateCompanyData(companyData);
 
-			this.$router.push({ path: `/pages/invoice` })
+			let invoiceDetails = {
+				invoiceNo: this.facture,
+				invoiceDate: this.date,
+				invoiceReglerLe: this.reglerLe,
+				userText: this.userText
+			};
 
-		},
+			this.updateInvoiceDetails(invoiceDetails);
 
-		selectClient(client) {
-			this.selectedCleint = client;
+			this.$router.push({ path: `/pages/invoice` });
 		},
 		selectFacture(text) {
 			this.selectedFacture = text;
 		},
 		selectProduit(Produit, number) {
 			this.selectedProducts.push({ produit: Produit, number: number })
+		},
+		setSelected(produit) {
+			this.selectedProducts.push({ produit: produit, number: produit.number })
 		},
 		addProduct() {
 			this.productNumbers.push(this.productNumbers.length + 1);
@@ -335,6 +389,12 @@ export default {
 			if (ele) {
 				ele.value = (ele.value * 1) + 1;
 			}
+		},
+		dateChanged(v) {
+			this.date = v
+		},
+		reglerLeChanged(v) {
+			this.reglerLe = v;
 		}
 	},
 	created() {
@@ -361,7 +421,6 @@ export default {
 	}
 	.number-input {
 		height: 2rem;
-		margin-top: 2rem;
 	}
 
 	.rond {

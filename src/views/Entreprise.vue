@@ -217,7 +217,7 @@
 					</div>
 				</div>
                 	<br />
-							<vs-checkbox v-model="checkboxTva">J'adhere a une AGA</vs-checkbox>
+					<vs-checkbox v-model="formData.isJoinAGM">J'adhere a une AGA</vs-checkbox>
 			
 				<br />
                 
@@ -299,7 +299,8 @@ export default {
 				formeSociale: "",
 				numeroTVA: "",
 				finExercice: null,
-				logo: ""
+				logo: "",
+				isJoinAGM: false
 			}
 		};
 	},
@@ -328,7 +329,8 @@ export default {
 					this.formData.formeSociale = this.entreprise.formeSociale || ""
 					this.formData.numeroTVA = this.entreprise.numeroTVA || ""
 					this.formData.finExercice = this.entreprise.finExercice ? new Date(this.entreprise.finExercice * 1000) : new Date()
-					this.formData.logo = this.entreprise.logo || ""
+					this.formData.logo = this.entreprise.logo || "",
+					this.formData.isJoinAGM = this.entreprise.isJoinAGM || false
 				}
 			}, deep: true
 		}
