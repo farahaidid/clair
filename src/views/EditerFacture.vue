@@ -257,7 +257,7 @@ export default {
 			},
 			facture: '2020-0001',
 			date: new Date(),
-			reglerLe: null,
+			reglerLe: new Date(),
 			userText: 'Mentions complémentaires'
 		}
 	},

@@ -64,7 +64,7 @@
 						<p>{{ invoiceDetails.invoiceNo }}</p>
 
 						<h6 class="mt-4">EN DATE DU</h6>
-						<p>{{ invoiceDetails.invoiceDate | date(true) }}</p>
+						<p>{{ formatDate(invoiceDetails.invoiceDate) }}</p>
 					</div>
 				</div>
 				<div class="vx-col w-full md:w-1/2 mt-12">
@@ -88,9 +88,9 @@
 				<div class="vx-col w-full md:w-1/2 mt-base text-right mt-12">
 					<h6>CLIENT</h6>
 					<br />
-					<h5>{{ companyDetails.name }}</h5>
-					<h5 v-if="companyDetails && companyDetails.siret">{{companyDetails.siret}}</h5>
-					<h5>{{companyDetails.addressLine1}}</h5>
+					<h5>{{ lastSelectedClient ? lastSelectedClient.nomCli :companyDetails.name }}</h5>
+					<h5 v-if="(companyDetails && companyDetails.siret) || lastSelectedClient">{{ lastSelectedClient ? lastSelectedClient.siretCli : companyDetails.siret}}</h5>
+					<h5>{{lastSelectedClient ? lastSelectedClient.adresseCli : companyDetails.addressLine1}}</h5>
 					<div class="invoice__company-info my-4"></div>
 				</div>
 			</div>
@@ -143,7 +143,7 @@
 			<div class="invoice__footer text-right p-base">
 				<p class="mb-4">
             
-             A regler pour le: {{ invoiceDetails.invoiceReglerLe | date(true) }}
+             A regler pour le: {{ formatDate(invoiceDetails.invoiceReglerLe) }}
             <br><br>
 					<span v-if="invoiceData.tva">Numero de TVA : {{entreprise&&entreprise.numeroTVA}}</span>
 					<span v-else>TVA non applicable art. 293B du CG.</span>
@@ -153,6 +153,9 @@
                     Dispense d'immatriculation au RCS et au repertoire des metiers.
 					<br />
 					<span>{{invoiceDetails.userText}}</span>
+					<span v-if="entreprise.isJoinAGM">
+						Acceptant le reglement des sommes dues par cheques libelles a son nom en sa qualite de membre d'un centre de gestion agree par l'administration fiscale
+					</span>
 				</p>
 			</div>
 		</vx-card>
@@ -162,6 +165,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex"
 import GLOBAL from "@/mixins/GLOBAL"
+import moment from "moment"
 
 export default {
 	data() {
@@ -190,6 +194,8 @@ export default {
 	mixins: [GLOBAL],
 	computed: {
 		...mapGetters("entreprise", ["entreprise"]),
+		...mapGetters("clients",["lastSelectedClient"]),
+		...mapGetters(["invoiceDetails"]),
 		logo() {
 			return (this.entreprise && this.entreprise.logo) || require("@/assets/images/logo/logo.png")
 		},
@@ -201,9 +207,6 @@ export default {
 		},
 		companyDetails() {
 			return this.$store.state.companyDetails;		
-		},		
-		invoiceDetails() {
-			return this.$store.state.invoiceDetails;
 		},
 		calculatedTva() {
 			return (this.invoiceData.subtotal / 100) * 20
@@ -220,6 +223,11 @@ export default {
 		...mapActions("entreprise", ["FETCH_ENTREPRISE"]),
 		printInvoice() {
 			window.print()
+		},
+		formatDate(dt){
+			let d = moment(dt).format("D MMM YYYY")
+			if(d == 'Invalid date') return ''
+			return d
 		}
 	},
 	components: {},

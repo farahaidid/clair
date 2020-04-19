@@ -202,7 +202,7 @@
 <script>
 import DataClientSidebar from './DataClientSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js"
-import { mapActions, mapGetters } from "vuex"
+import { mapActions, mapGetters, mapMutations } from "vuex"
 
 export default {
   components: {
@@ -252,6 +252,7 @@ export default {
   },
   methods: {
     ...mapActions("clients",["ADD_CLIENTS", "FETCH_CLIENTS","DELETE_CLIENTS", "UPDATE_CLIENTS"]),
+    ...mapMutations("clients",["SET_LAST_SELECTED_CLIENT"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
@@ -259,6 +260,7 @@ export default {
           console.log(res);
           if(i == this.selected.length-1){
             this.FETCH_CLIENTS()
+            this.SET_LAST_SELECTED_CLIENT(null)
           }
         })
       }
@@ -288,6 +290,7 @@ export default {
       this.siretCli= data.siretCli;
       this.villeCli= data.villeCli,
       this.clientId = data.id
+      this.SET_LAST_SELECTED_CLIENT(data)
     },
     getOrderStatusColor(status) {
       if(status == 'on_hold') return "warning"
@@ -362,6 +365,8 @@ export default {
           console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
         })
       }
+
+      this.SET_LAST_SELECTED_CLIENT(obj)
       
 
       // Hide the modal manually

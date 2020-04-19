@@ -1,3 +1,4 @@
 export default{
-    clients : state => state.clients
+    clients : state => state.clients,
+    lastSelectedClient : state => state.lastSelectedClient,
   }
