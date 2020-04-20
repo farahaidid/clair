@@ -322,8 +322,8 @@ export default {
 					console.log("ENTREPRISE-UPDATED", v);
 					this.formData.nomEntreprise = this.entreprise.nomEntreprise || ""
 					this.formData.siren = this.entreprise.siren || ""
-					this.formData.adresse = this.entreprise.nomEntreprise || ""
-					this.formData.codePostal = this.entreprise.nomEntreprise || ""
+					this.formData.adresse = this.entreprise.adresse || ""
+					this.formData.codePostal = this.entreprise.codePostal || ""
 					this.formData.ville = this.entreprise.ville || ""
 					this.formData.codeNAF = this.entreprise.codeNAF || ""
 					this.formData.formeSociale = this.entreprise.formeSociale || ""
