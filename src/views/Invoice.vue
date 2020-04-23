@@ -16,7 +16,6 @@
 				type="border"
 				icon-pack="feather"
 				icon="icon icon-copy"
-                to="../MesFactures.vue"
 			>Mes factures</vs-button>
 
 			<vs-button
@@ -70,15 +69,14 @@
 				</div>
 				<div class="vx-col w-full md:w-1/2 mt-12">
 					<h5>{{entreprise ? entreprise.nomEntreprise : 'CLAIR COMPTA'}}</h5>
-				
+					<div class="invoice__recipient-info my-4">
+						<p>SIREN: {{entreprise? entreprise.siren:'' }}</p>
+					</div>
 					<div v-if="entreprise" class="invoice__recipient-info my-4">
 						<p>{{entrepriseAddress }}</p>
 					</div>
 					<div v-else class="invoice__recipient-info my-4">
 						<p>{{ recipientDetails.addressLine1 }}</p>
-					</div>
-                    	<div class="invoice__recipient-info my-4">
-						<p>SIREN: {{entreprise? entreprise.siren:'' }}</p>
 					</div>
 					<div v-if="!entreprise" class="invoice__recipient-contact">
 						<p class="flex items-center">

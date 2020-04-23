@@ -79,6 +79,16 @@ const router = new Router({
                     },
                 },
                 
+                    {
+                    path: '/MesFactures.vue',
+                    name: 'mes-factures',
+                    component: () => import('@/views/MesFactures.vue'),
+                    meta: {
+                        pageTitle: 'Mes Factures',
+                        rule: 'editor'
+                    },
+                },
+                
                 {
                     path: '/DataProduitListView.vue',
                     name: 'data-produit-list-view',

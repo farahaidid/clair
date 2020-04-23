@@ -116,7 +116,7 @@
 
 				<div class="vx-row mb-6">
 					<div class="vx-col sm:w-3/3 w-full">
-						<vs-textarea class="w-full" icon-no-border v-model="userText" />
+						<vs-textarea class="w-full" label="Mentions complementaires" icon-no-border v-model="userText" />
 					</div>
 				</div>
 
@@ -259,7 +259,7 @@ export default {
 			facture: '2020-0001',
 			date: new Date(),
 			reglerLe: new Date(),
-			userText: 'Mentions complémentaires'
+			userText: ''
 		}
 	},
 
