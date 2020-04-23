@@ -35,7 +35,7 @@
 						</div> -->
 						<div class="vx-row mb-6">
 							<div class="vx-col sm:w-1/3 w-full">
-								<span>Fecture</span>
+								<v-select placeholder="Selectionner Facture" label="selectedFacture" :options="factureOptions" v-model="selectedFacture"/>
 							</div>
 							<div class="vx-col sm:w-2/3 w-full">
 								<vs-input class="w-full" icon-no-border v-model="facture" />
@@ -188,6 +188,7 @@ import { mapActions, mapGetters } from "vuex"
 export default {
 	data() {
 		return {
+			factureOptions:['Facture','Avoir','Devis'],
 			checkboxTva: false,
 			check1: '',
 			check2: '',
