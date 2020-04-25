@@ -9,7 +9,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage"  :data="clients">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage"  :data="queriedItems">
 
  
 
@@ -23,7 +23,7 @@
 				type="flat"
 				icon-pack="feather"
 				icon="icon"
-				to="../DataClientListView.vue"
+				@click="setFilterBy('Facture')"
 			>Factures</vs-button>
             
             	<vs-button
@@ -31,7 +31,7 @@
 				type="flat"
 				icon-pack="feather"
 				icon="icon"
-				to="../DataClientListView.vue"
+				@click="setFilterBy('Devis')"
 			>Devis</vs-button>
             
             	<vs-button
@@ -39,7 +39,7 @@
 				type="flat"
 				icon-pack="feather"
 				icon="icon"
-				to="../DataClientListView.vue"
+				@click="setFilterBy('Avoir')"
 			>Avoirs</vs-button>
             <div>
            
@@ -82,9 +82,12 @@
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="nomCli">Nom</vs-th>
-        <vs-th sort-key="emailCli">Email</vs-th>
-        <vs-th sort-key="siretCli">SIRET</vs-th>
+        <vs-th sort-key="nom">Nom</vs-th>
+        <vs-th sort-key="montant">Montant</vs-th>
+        <vs-th sort-key="tva">TVA</vs-th>
+        <vs-th sort-key="categorie">Categorie</vs-th>
+        <vs-th sort-key="date">Date</vs-th>
+        <vs-th sort-key=""></vs-th>
     
       </template>
 
@@ -93,18 +96,28 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
               <vs-td>
-                <p class="product-nomCli font-medium truncate mb-0" >{{ tr.nomCli }}</p>
+                <p class="product-nomCli font-medium truncate mb-0" >{{ tr.nom }}</p>
               </vs-td>
 
               <vs-td>
-                <p class="product-emailCli mb-0">{{ tr.emailCli }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-emailCli mb-0">{{ tr.montant }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td>
-                <p class="product-siretCli mb-0">{{ tr.siretCli }} <br><font color="#e4bcb3"></font></p>
+                <p class="product-siretCli mb-0">{{ tr.tva }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
+              <vs-td>
+                <p class="product-siretCli mb-0">{{ tr.categorie }} <br><font color="#e4bcb3"></font></p>
+              </vs-td>
+
+              <vs-td>
+                <p class="product-siretCli mb-0">{{ tr.date }} <br><font color="#e4bcb3"></font></p>
+              </vs-td>
             
+              <vs-td>
+                <feather-icon icon="DownloadIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="downloadPdf(tr)"  />
+              </vs-td>
 
             </vs-tr>
           </tbody>
@@ -153,10 +166,12 @@ export default {
       clientId: "",
 
       deleteClientId: "",
+      filterBy: ''
     }
   },
   computed: {
     ...mapGetters("clients",["clients"]),
+    ...mapGetters("employes",["employes"]),
     currentPage() {
       if(this.isMounted) {
         return this.$refs.table.currentx
@@ -168,6 +183,8 @@ export default {
     },
     queriedItems() {
       // return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
+      if(this.filterBy == '') return this.employes.filter(e => e.categorie == 'Vente')
+      return this.employes.filter(e => e.categorie == 'Vente' && e.typedoc == this.filterBy)
     }
   },
   methods: {
@@ -182,6 +199,19 @@ export default {
           }
         })
       }
+    },
+    setFilterBy(typedoc){
+      this.filterBy = typedoc
+    },
+    downloadPdf(employe){
+      var a = document.createElement("a");
+      a.href = employe.invoice_pdf;
+      let fileName = 'invoice_'+ employe.nom + '_' + employe.date
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(employe.invoice_pdf);
+      a.remove();
     },
     editEmployee(){
       this.sidebarData = this.selected[0]

@@ -47,7 +47,7 @@
 					class="mb-base mr-3 rond"
 					icon-pack="feather"
 					icon="icon icon-file"
-					@click="printInvoice"
+					@click="showPdfPrintModal=true;printInvoice()"
 				>Options d'Envoi</vs-button>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
 				<div class="vx-col w-full md:w-1/2 mt-base text-right mt-12">
 					<h6>CLIENT</h6>
 					<br />
-					<h5>{{ lastSelectedClient ? lastSelectedClient.nomCli :companyDetails.name }}</h5>
+					<h5>{{ nom }}</h5>
 					<h5 v-if="(companyDetails && companyDetails.siret) || lastSelectedClient">{{ lastSelectedClient ? lastSelectedClient.siretCli : companyDetails.siret}}</h5>
 					<h5>{{lastSelectedClient ? lastSelectedClient.adresseCli : companyDetails.addressLine1}}</h5>
 					<div class="invoice__company-info my-4"></div>
@@ -130,13 +130,11 @@
 					</vs-tr>
 					<vs-tr>
 						<vs-th>TVA</vs-th>
-						<vs-td v-if="invoiceData.tva">{{ calculatedTva }} &euro;</vs-td>
-						<vs-td v-else>{{ invoiceData.discountedAmount }} &euro;</vs-td>
+						<vs-td>{{ tva }} &euro;</vs-td>
 					</vs-tr>
 					<vs-tr>
 						<th>TOTAL TTC</th>
-						<vs-td v-if="invoiceData.tva">{{ invoiceData.subtotal + calculatedTva }} &euro;</vs-td>
-						<vs-td v-else>{{ invoiceData.total }} &euro;</vs-td>
+						<vs-td>{{ totalTTC }} &euro;</vs-td>
 					</vs-tr>
 				</vs-table>
 			</div>
@@ -161,6 +159,13 @@
 				</p>
 			</div>
 		</vx-card>
+		<b-modal v-model="showPdfPrintModal" :hide-header="true" :hide-footer="true" centered :size="'md'">
+			<h4 class="text-success text-center" style="margin-bottom:50px">Do you want to save PDF Invoice?</h4>
+			<b-row class="justify-content-around">
+				<b-button variant="danger" @click="showPdfPrintModal = false">No</b-button>
+				<b-button variant="success" @click="printInvoice">Yes</b-button>
+			</b-row>
+		</b-modal>
 	</div>
 </template>
 
@@ -168,6 +173,9 @@
 import { mapGetters, mapActions } from "vuex"
 import GLOBAL from "@/mixins/GLOBAL"
 import moment from "moment"
+import html2canvas from 'html2canvas'
+import jsPDF from "jspdf"
+import {invoiceStorage, db} from "@/firebase/firebaseConfig"
 
 export default {
 	data() {
@@ -191,6 +199,7 @@ export default {
 				mailId: 'contact@appclair.com',
 				mobile: '+91 988 888 8888',
 			},
+			showPdfPrintModal: false
 		}
 	},
 	mixins: [GLOBAL],
@@ -207,11 +216,20 @@ export default {
 		facture() {
 			return this.$store.state.facture
 		},
+		nom(){
+			return this.lastSelectedClient ? this.lastSelectedClient.nomCli :this.companyDetails.name
+		},
 		companyDetails() {
 			return this.$store.state.companyDetails;		
 		},
 		calculatedTva() {
 			return (this.invoiceData.subtotal / 100) * 20
+		},
+		totalTTC(){
+			return this.invoiceData.tva ? this.invoiceData.subtotal + this.calculatedTva : this.invoiceData.total
+		},
+		tva(){
+			return this.invoiceData.tva ? this.calculatedTva : this.invoiceData.discountedAmount
 		},
 		entrepriseAddress() {
 			if (this.entreprise) {
@@ -223,8 +241,48 @@ export default {
 	},
 	methods: {
 		...mapActions("entreprise", ["FETCH_ENTREPRISE"]),
-		printInvoice() {
-			window.print()
+		...mapActions("employes", ["ADD_EMPLOYEE","FETCH_EMPLOYES"]),
+		printInvoice(print=false) {
+			let page = document.querySelector("#invoice-container .vx-card__collapsible-content .vx-card__body")
+			let _this = this
+			html2canvas(page).then(async function(canvas) {
+				let dataUrl = canvas.toDataURL("image/png", 1.0)
+				const imgHeight = (canvas.height * 200) / canvas.width;
+				let pdf = new jsPDF("p", "mm", "a4")
+				pdf.setPage(1)
+				pdf.addImage( dataUrl, "PNG", 5, 5, 200, imgHeight,null, 'FAST')
+				if(print){
+					pdf.save('invoice.pdf')
+					_this.showPdfPrintModal = false
+				}else{
+					const pdfData = pdf.output("datauristring")
+					_this.addEmployee(pdfData, dataUrl)
+					try{
+						// let imageSnapShot = await invoiceStorage.child(Math.random().toString(36).substring(2)).putString(pdfData, 'data_url')
+						// await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
+						// 	console.log("IMAGE",imgurl);
+						// 	url = imgurl
+						// })
+					}catch(e){
+						console.log(e);
+					}
+				}
+			});
+		},
+		async addEmployee(pdf,dataUrl){
+			let data = {
+				nom: this.nom,
+				montant: this.totalTTC,
+				tva: this.tva,
+				date: moment(this.invoiceDetails.invoiceDate).format("DD/MM/YYYY"),
+				typedoc: this.facture,
+				categorie: 'Vente',
+				invoice_pdf: pdf,
+				photo: dataUrl
+			}
+			await this.ADD_EMPLOYEE(data).then(async res => {
+				await this.FETCH_EMPLOYES()
+			})
 		},
 		formatDate(dt){
 			let d = moment(dt).format("D MMM YYYY")
