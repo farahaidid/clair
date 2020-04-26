@@ -47,7 +47,7 @@
 					class="mb-base mr-3 rond"
 					icon-pack="feather"
 					icon="icon icon-file"
-					@click="showPdfPrintModal=true;printInvoice()"
+					@click="printInvoice"
 				>Options d'Envoi</vs-button>
 			</div>
 		</div>
@@ -163,7 +163,7 @@
 			<h4 class="text-success text-center" style="margin-bottom:50px">Do you want to save PDF Invoice?</h4>
 			<b-row class="justify-content-around">
 				<b-button variant="danger" @click="showPdfPrintModal = false">No</b-button>
-				<b-button variant="success" @click="printInvoice">Yes</b-button>
+				<b-button variant="success" @click="printPdf">Yes</b-button>
 			</b-row>
 		</b-modal>
 	</div>
@@ -199,7 +199,8 @@ export default {
 				mailId: 'contact@appclair.com',
 				mobile: '+91 988 888 8888',
 			},
-			showPdfPrintModal: false
+			showPdfPrintModal: false,
+			pdf: null
 		}
 	},
 	mixins: [GLOBAL],
@@ -242,7 +243,7 @@ export default {
 	methods: {
 		...mapActions("entreprise", ["FETCH_ENTREPRISE"]),
 		...mapActions("employes", ["ADD_EMPLOYEE","FETCH_EMPLOYES"]),
-		printInvoice(print=false) {
+		printInvoice() {
 			let page = document.querySelector("#invoice-container .vx-card__collapsible-content .vx-card__body")
 			let _this = this
 			html2canvas(page).then(async function(canvas) {
@@ -251,23 +252,26 @@ export default {
 				let pdf = new jsPDF("p", "mm", "a4")
 				pdf.setPage(1)
 				pdf.addImage( dataUrl, "PNG", 5, 5, 200, imgHeight,null, 'FAST')
-				if(print){
-					pdf.save('invoice.pdf')
-					_this.showPdfPrintModal = false
-				}else{
-					const pdfData = pdf.output("datauristring")
-					_this.addEmployee(pdfData, dataUrl)
-					try{
-						// let imageSnapShot = await invoiceStorage.child(Math.random().toString(36).substring(2)).putString(pdfData, 'data_url')
-						// await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
-						// 	console.log("IMAGE",imgurl);
-						// 	url = imgurl
-						// })
-					}catch(e){
-						console.log(e);
-					}
+				_this.pdf = pdf
+				_this.showPdfPrintModal=true;
+				const pdfData = pdf.output("datauristring")
+				_this.addEmployee(pdfData, dataUrl)
+				try{
+					// let imageSnapShot = await invoiceStorage.child(Math.random().toString(36).substring(2)).putString(pdfData, 'data_url')
+					// await imageSnapShot.ref.getDownloadURL().then(imgurl =>{
+					// 	console.log("IMAGE",imgurl);
+					// 	url = imgurl
+					// })
+				}catch(e){
+					console.log(e);
 				}
 			});
+		},
+		printPdf(){
+			if(this.pdf) {
+				this.pdf.save('invoice.pdf')
+				this.showPdfPrintModal = false
+			}
 		},
 		async addEmployee(pdf,dataUrl){
 			let data = {
