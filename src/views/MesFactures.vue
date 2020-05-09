@@ -9,7 +9,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage"  :data="queriedItems">
+    <vs-table ref="table" v-model="selected" pagination :max-items="itemsPerPage"  :data="queriedItems">
 
  
 

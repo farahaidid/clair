@@ -48,7 +48,7 @@
 					icon-pack="feather"
 					icon="icon icon-file"
 					@click="printInvoice"
-				>Options d'Envoi</vs-button>
+				>Enregistrer</vs-button>
 			</div>
 		</div>
 
@@ -72,13 +72,13 @@
 					<h5>{{entreprise ? entreprise.nomEntreprise : 'CLAIR COMPTA'}}</h5>
 				
 					<div v-if="entreprise" class="invoice__recipient-info my-4">
-						<p>{{entrepriseAddress }}</p>
+						{{entrepriseAddress }}
 					</div>
 					<div v-else class="invoice__recipient-info my-4">
 						<p>{{ recipientDetails.addressLine1 }}</p>
 					</div>
                     	<div class="invoice__recipient-info my-4">
-						<p>SIREN: {{entreprise? entreprise.siren:'' }}</p>
+						SIREN: {{entreprise? entreprise.siren:'' }}
 					</div>
 					<div v-if="!entreprise" class="invoice__recipient-contact">
 						<p class="flex items-center">
@@ -91,8 +91,8 @@
 					<h6>CLIENT</h6>
 					<br />
 					<h5>{{ nom }}</h5>
-					<h5 v-if="(companyDetails && companyDetails.siret) || lastSelectedClient">{{ lastSelectedClient ? lastSelectedClient.siretCli : companyDetails.siret}}</h5>
-					<h5>{{lastSelectedClient ? lastSelectedClient.adresseCli : companyDetails.addressLine1}}</h5>
+					<div v-if="(companyDetails && companyDetails.siret) || lastSelectedClient">{{ lastSelectedClient ? lastSelectedClient.siretCli : companyDetails.siret}}</div>
+					{{lastSelectedClient ? lastSelectedClient.adresseCli : companyDetails.addressLine1}}
 					<div class="invoice__company-info my-4"></div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 							<vs-td :data="data[index].task">{{ data[index].task }}</vs-td>
 							<vs-td :data="data[index].hours">{{ data[index].hours }}</vs-td>
 							<vs-td :data="data[index].rate">{{ data[index].rate }}</vs-td>
-							<vs-td>20%</vs-td>
+							<vs-td>{{tauxTva}}%</vs-td>
 							<vs-td :data="data[index].amount">{{ data[index].amount }}</vs-td>
 						</vs-tr>
 					</template>
@@ -130,7 +130,7 @@
 					</vs-tr>
 					<vs-tr>
 						<vs-th>TVA</vs-th>
-						<vs-td>{{ tva }} &euro;</vs-td>
+						<vs-td>{{ calculateTvaWithTax() }} &euro;</vs-td>
 					</vs-tr>
 					<vs-tr>
 						<th>TOTAL TTC</th>
@@ -207,6 +207,7 @@ export default {
 	computed: {
 		...mapGetters("entreprise", ["entreprise"]),
 		...mapGetters("clients",["lastSelectedClient"]),
+		...mapGetters("produits",["lastSelectedProduit"]),
 		...mapGetters(["invoiceDetails"]),
 		logo() {
 			return (this.entreprise && this.entreprise.logo) || require("@/assets/images/logo/logo.png")
@@ -216,6 +217,9 @@ export default {
 		},
 		facture() {
 			return this.$store.state.facture
+		},
+		tauxTva(){
+			return this.lastSelectedProduit ? this.lastSelectedProduit.tauxTva || 20 : 20
 		},
 		nom(){
 			return this.lastSelectedClient ? this.lastSelectedClient.nomCli :this.companyDetails.name
@@ -230,7 +234,7 @@ export default {
 			return this.invoiceData.tva ? this.invoiceData.subtotal + this.calculatedTva : this.invoiceData.total
 		},
 		tva(){
-			return this.invoiceData.tva ? this.calculatedTva : this.invoiceData.discountedAmount
+			return this.invoiceData.tva ? this.calculatedTva.toFixed(2) : this.invoiceData.discountedAmount.toFixed(2)
 		},
 		entrepriseAddress() {
 			if (this.entreprise) {
@@ -243,6 +247,9 @@ export default {
 	methods: {
 		...mapActions("entreprise", ["FETCH_ENTREPRISE"]),
 		...mapActions("employes", ["ADD_EMPLOYEE","FETCH_EMPLOYES"]),
+		calculateTvaWithTax(){
+			return ((this.tva * this.tauxTva ) / 100).toFixed(2)
+		},
 		printInvoice() {
 			let page = document.querySelector("#invoice-container .vx-card__collapsible-content .vx-card__body")
 			let _this = this
@@ -296,6 +303,7 @@ export default {
 	},
 	components: {},
 	async created() {
+		console.log(this.lastSelectedProduit);
 		this.FETCH_ENTREPRISE(this.firebaseUserId)
 	},
 	mounted() {

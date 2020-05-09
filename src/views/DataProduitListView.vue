@@ -39,13 +39,6 @@
             </vs-dropdown-menu>
           </vs-dropdown>
 
-          <!-- ADD NEW -->
-          <!-- <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary
-          border border-solid border-primary" @click="addNewData">
-              <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 rounded-lg text-base text-primary">Ajouter Produit</span>
-          </div> -->
-
           <b-button class="add-Produit" v-b-modal.modal-prevent-closing>
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
             <span class="ml-2 text-base text-primary">Ajouter Produit</span>
@@ -70,6 +63,7 @@
                     id="name-input"
                     v-model="nomProd"
                     :state="nameState"
+                    v-validate="{ required: true, min: 3 }"
                     required
                   ></b-form-input>
                 </b-form-group>
@@ -100,6 +94,9 @@
                     :state="nameState"
                     required
                   ></b-form-input>
+                </b-form-group>
+                <b-form-group label="Taux TVA" invalid-feedback="Taux TVA is required">
+                  <b-form-select v-model="tauxTva" :options="tauxTvaOptions"></b-form-select>
                 </b-form-group>
               </form>
             </b-modal>
@@ -181,7 +178,7 @@
 <script>
 import DataProduitSidebar from './DataProduitSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js"
-import { mapActions, mapGetters } from "vuex"
+import { mapActions, mapGetters, mapMutations } from "vuex"
 
 export default {
   components: {
@@ -202,6 +199,12 @@ export default {
       nomProd: '',
       prixU: '',
       description: "",
+      tauxTva: 20,
+      tauxTvaOptions: [
+        {value: 5, text: '5%'},
+        {value: 10, text: '10%'},
+        {value: 20, text: '20%'},
+      ],
       name: "",
       nameState: null,
       submittedNames: [],
@@ -225,6 +228,7 @@ export default {
   },
   methods: {
     ...mapActions("produits",["ADD_PRODUITS", "FETCH_PRODUITS","DELETE_PRODUITS", "UPDATE_PRODUITS"]),
+    ...mapMutations("produits",["SET_LAST_SELECTED_PRODUIT"]),
     deleteEmployee(){
       for(let i=0;i<this.selected.length;i++){
         console.log(this.selected[i],i);
@@ -256,6 +260,7 @@ export default {
       this.nomProd=  data.nomProd;
       this.prixU = data.prixU;
       this.description = data.description;
+      this.tauxTva = data.tauxTva || 20;
     },
     getOrderStatusColor(status) {
       if(status == 'on_hold') return "warning"
@@ -276,6 +281,7 @@ export default {
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity()
+      console.log(valid);
       this.nameState = valid
       return valid
     },
@@ -298,7 +304,8 @@ export default {
       let obj = {
         nomProd: this.nomProd,
         prixU: this.prixU,
-        description: this.description
+        description: this.description,
+        tauxTva: this.tauxTva
       }
 
       if (!this.produitId) {
@@ -320,6 +327,8 @@ export default {
           console.log(`ERROR : VIEWS : DataViewSidebar.vue : submitData -> UPDATE : ${err}`);
         })
       }
+
+      this.SET_LAST_SELECTED_PRODUIT(obj)
 
 
       // Push the name to submitted names

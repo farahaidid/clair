@@ -9,7 +9,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="employes">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="employesSortedByDate">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -17,16 +17,11 @@
 
           <!-- ACTION - DROPDOWN -->
           <vs-dropdown vs-trigger-click class="dd-actions cursor-pointer mr-4 mb-4">
-
             <div class="p-4 shadow-drop rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-center text-lg font-medium w-32 w-full">
               <span class="mr-2">Modifier</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
-
             <vs-dropdown-menu>
-
-
-
               <vs-dropdown-item>
                 <span class="flex items-center" v-if="selected.length == 1" @click="editEmployee">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
@@ -75,12 +70,7 @@
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
-        
-       
-        
       </div>
-     
-
       <template slot="thead">
         <vs-th sort-key="name">Nom</vs-th>
         <vs-th sort-key="category">Montant</vs-th>
@@ -99,7 +89,7 @@
               </vs-td>
 
               <vs-td>
-                <p class="product-category mb-0" align="right">{{ tr.montant }} <br><font color="#e4bcb3"></font></p>
+                <p :class="['product-category mb-0',tr.montant >=0 ? 'text-success':'text-danger']" align="right">{{tr.montant>=0?'+':'-'}}{{ tr.montant }} <br><font color="#e4bcb3"></font></p>
               </vs-td>
 
               <vs-td>
@@ -115,12 +105,9 @@
               <vs-td>
                 <p class="product-order-status font-medium truncate mb-0" >{{ tr.date }}</p>
               </vs-td>
-
-
-
               <vs-td class="whitespace-no-wrap">
                 <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
-                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @onclick="deleteEmployee"/>
+                <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current"  class="ml-2" @click.stop="deleteEmployee(tr)"/>
               </vs-td> 
 
             </vs-tr>
@@ -136,6 +123,7 @@
 import DataViewSidebar from './DataViewSidebar.vue'
 import moduleDataList from "@/store/data-list/moduleDataList.js"
 import { mapActions, mapGetters } from "vuex"
+import moment from "moment"
 
 export default {
   components: {
@@ -155,6 +143,15 @@ export default {
   },
   computed: {
     ...mapGetters("employes",["employes"]),
+    employesSortedByDate(){
+      return this.employes.sort((a,b)=>{
+        let d1 = moment(a.date,"DD/MM/YYYY").format("X")
+        let d2 = moment(b.date,"DD/MM/YYYY").format("X")
+        if(d2>d1) return 1
+        if(d2<d1) return -1
+        return 0
+      })
+    },
     currentPage() {
       if(this.isMounted) {
         return this.$refs.table.currentx
@@ -170,16 +167,11 @@ export default {
   },
   methods: {
     ...mapActions("employes",["FETCH_EMPLOYES","DELETE_EMPLOYEE"]),
-    deleteEmployee(){
-      for(let i=0;i<this.selected.length;i++){
-        console.log(this.selected[i],i);
-        this.DELETE_EMPLOYEE({id:this.selected[i].id}).then(res => {
-          console.log(res);
-          if(i == this.selected.length-1){
-            this.FETCH_EMPLOYES()
-          }
-        })
-      }
+    deleteEmployee(employe){
+      this.DELETE_EMPLOYEE({id: employe.id}).then(res => {
+        console.log(res);
+        this.FETCH_EMPLOYES()
+      })
     },
     editEmployee(){
       this.sidebarData = this.selected[0]

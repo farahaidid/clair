@@ -52,7 +52,7 @@ export default{
             categories: [
                 {
                     id: 1,
-                    name: 'Toutes les questions',
+                    name: 'Sommaire',
                     color: 'grey',
                 },
                 {
@@ -62,7 +62,7 @@ export default{
                 },
                 {
                     id: 3,
-                    name: 'Fiscal',
+                    name: 'Facturation',
                     color: 'success'
                 },
                 {
@@ -77,37 +77,59 @@ export default{
                 },
             ],
             faqs: [
-                {
-                    id: 1,
-                    categoryId: 2,
-                    question: 'Collecter mes documents justificatifs',
-                    ans: 'Royalty free means you just need to pay for rights to use the item once per end product. You don\'t need to pay additional or ongoing fees for each person who sees or uses it. Please note that there may be some limits placed on uses under the different license types available on the marketplaces, such as our Photo and Music Licenses.'
-                },
-                {
-                    id: 2,
-                    categoryId: 2,
-                    question: 'Personnaliser et envoyer une Facture',
-                    ans: 'The item is what you purchase from Envato Market. The end product is what you build with that item. Example: The item is a business card template; the end product is the finalized business card. The item is a button graphic; the end product is an app using the button graphic in the app\'s interface.'
-                },
-                {
-                    id: 3,
-                    categoryId: 2,
-                    question: "Gerer mes clients et produits / services ",
-                    ans: 'Yes. You can customize our items to fit the needs of your end product. Example: You could change the colors, text, and layout of a flyer template or convert an HTML template into a WordPress theme for a single client.'
-                },
-                {
+          
+                 {
                     id: 4,
-                    categoryId: 2,
-                    question: 'Importer mes transactions bancaires',
-                    ans: 'Non-exclusive means that you are not the only person with access to the item. Others will also be licensing and using the same item.'
+                    categoryId: 3,
+                    question: "Changer votre profil de facturation",
+                    ans: "La premiere etape avant d'emettre votre premiere facture est d'editer les donnees de votre entreprise. Il vous suffit de cliquer sur l'icone situee en haut a droite de l'ecran, puis sur 'Entreprise'. Vous pouvez ainsi importer votre logo et saisir toutes les donnees relatives a votre societe."
                 },
-                {
+                 {
                     id: 5,
                     categoryId: 3,
-                    question: "Modifier les informations de mon profil",
-                    ans: 'No, our Regular License is for a free end product (whether or not the item is used in the end product in an editorial way). And our Extended License is for an end product that\'s sold (whether or not the item is used in the end product in an editorial way). If you want to use an item in an editorial way in your end product, choose the Regular License if your end product is distributed for free, and choose the Extended License if your end product is sold to the end customer.'
+                    question: "Creer votre premier Client",
+                    ans: "Avant de pouvoir facturer, il vous est demande de creer vos Clients, en cliquant sur le bouton du meme nom qui se trouve dans la section 'Facturer'. Il vous est alors demande de renseigner certains champs tels que l'adresse ou le numero SIREN du client. Ces mentions legales sont en effet requises par la loi lorsque votre client est professionnel. Si vous emettez une facture a destination d'un particulier, vous pouvez laisser ces champs vides."
+                },
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Creer vos produits ou prestations de service",
+                    ans: "Dans la section Facturer vous avez la possibilite de creer vos produits et services en cliquant sur le bouton 'Produits' puis sur 'Ajouter Produit'. Il vous suffit ensuite de renseigner un nom, prix unitaire et description. Cette derniere ne sera pas visible sur votre facture."
+                },
+                
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Etablir votre premiere facture",
+                    ans: "Une fois que vous avez edite votre profil Entreprise et cree vos clients et produits, vous pouvez etablir vos factures en cliquant sur le bouton 'Editer Facture'. Vous avez le choix entre etablir une Facture, un Devis ou un Avoir. Le choix de la numerotation de vos factures est libre."
                 },
               
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Qu'en est-il de la TVA ?",
+                    ans: "La TVA est etablie par defaut a 20%. Si vous n'etes pas assujetti a la TVA, vous avez la possibilite de decocher cette case dans le menu 'Editer Facture'."
+                },
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Sauvegarder votre document",
+                    ans: "Une fois que votre document est pret, il vous suffit de cliquer sur le bouton 'Sauvegarder'. Un fichier PDF est alors genere, vous pouvez l'enregister sur votre PC ou mobile. Le document est automatiquement reporte dans votre section 'Documents' afin de relier par la suite a une transaction bancaire."
+                },
+                
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Puis-je modifier une facture?",
+                    ans: "Non. Conformement aux dispositions legales anti-fraude a la TVA, une fois votre facture generee celle-ci ne peut etre modifiee. Vous pouvez par contre creer une facture d'avoir."
+                },
+                
+                 {
+                    id: 5,
+                    categoryId: 3,
+                    question: "Outil de facturation agree par l'Etat",
+                    ans: "Clair est conforme a la nouvelle legislation en matiere de facturation (loi du 1er janvier 2018). Vous pouvez telecharger une attestation de conformite depuis les parametres de votre profil."
+                },
             ],
             supporters: [
                 {

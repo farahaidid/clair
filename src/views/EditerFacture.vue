@@ -46,7 +46,7 @@
 								<span>Date</span>
 							</div>
 							<div class="vx-col sm:w-2/3 w-full">
-								<datepicker-default :dateModel="date" @date-change="dateChanged"></datepicker-default>
+								<datepicker-default :dateModel="date" @date-change="dateChanged" :language="fr"></datepicker-default>
 							</div>
 						</div>
 						<div class="vx-row mb-6">
@@ -54,7 +54,7 @@
 								<span>A régler le</span>
 							</div>
 							<div class="vx-col sm:w-2/3 w-full">
-								<datepicker-default :dateModel="reglerLe" @date-change="reglerLeChanged"></datepicker-default>
+								<datepicker-default :dateModel="reglerLe" @date-change="reglerLeChanged" :language="fr"></datepicker-default>
 							</div>
 						</div>
 					</div>
@@ -127,7 +127,7 @@
 						<center>
 							<vs-button class="mr-6 mb-2 rond" @click="Enregistrer">Enregistrer</vs-button>
 							<br />
-							<vs-checkbox v-model="checkboxTva">TVA</vs-checkbox>
+							<vs-checkbox v-model="checkboxTva"> Redevable TVA</vs-checkbox>
 						</center>
 					</div>
 				</div>
@@ -189,7 +189,7 @@ export default {
 	data() {
 		return {
 			factureOptions:['Facture','Avoir','Devis'],
-			checkboxTva: false,
+			checkboxTva: true,
 			check1: '',
 			check2: '',
 			check3: '',
