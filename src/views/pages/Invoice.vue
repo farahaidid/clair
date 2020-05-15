@@ -116,7 +116,7 @@
 							<vs-td :data="data[index].task">{{ data[index].task }}</vs-td>
 							<vs-td :data="data[index].hours">{{ data[index].hours }}</vs-td>
 							<vs-td :data="data[index].rate">{{ data[index].rate }}</vs-td>
-							<vs-td>{{tauxTva}}%</vs-td>
+							<vs-td> {{data[index].tauxTva}}%</vs-td>
 							<vs-td :data="data[index].amount">{{ data[index].amount }}</vs-td>
 						</vs-tr>
 					</template>
@@ -231,6 +231,7 @@ export default {
 			return (this.invoiceData.subtotal / 100) * 20
 		},
 		totalTTC(){
+			if(this.lastSelectedProduit) return (parseFloat(this.invoiceData.subtotal) + parseFloat(this.calculateTvaWithTax())).toFixed(2)
 			return this.invoiceData.tva ? this.invoiceData.subtotal + this.calculatedTva : this.invoiceData.total
 		},
 		tva(){
@@ -248,7 +249,12 @@ export default {
 		...mapActions("entreprise", ["FETCH_ENTREPRISE"]),
 		...mapActions("employes", ["ADD_EMPLOYEE","FETCH_EMPLOYES"]),
 		calculateTvaWithTax(){
-			return ((this.tva * this.tauxTva ) / 100).toFixed(2)
+			let t = 0
+			this.invoiceData.tasks.forEach(task=>{
+				console.log(task,(parseFloat(task.hours) , parseFloat(task.rate) , (parseFloat(task.tauxTva)  / 100)));
+				t += (parseFloat(task.hours) * parseFloat(task.rate) * (parseFloat(task.tauxTva)  / 100))
+			})
+			return (t).toFixed(2)
 		},
 		printInvoice() {
 			let page = document.querySelector("#invoice-container .vx-card__collapsible-content .vx-card__body")

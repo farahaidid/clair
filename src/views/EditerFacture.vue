@@ -327,6 +327,7 @@ export default {
 					hours: p.product.prixU,
 					rate: p.quantity,
 					amount: (p.product.prixU || 1) * (p.quantity || 1),
+					tauxTva: p.product ? p.product.tauxTva || 20 : 20
 				}
 
 				task.push(data);
